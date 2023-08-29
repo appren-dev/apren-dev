@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { onSingOut } from "db/api/login";
 import { Toast } from "utilities/ToastsHelper";
 import { errorHandler } from "utilities/errorHandler";
-
+import {HiOutlineKey} from "react-icons/hi"
 const UserInfoComponent = ({ userImage, updateSession }) => {
   const [anchorElUser, setAnchorElUser] = useState(null);
   const navigate = useNavigate();
@@ -89,6 +89,12 @@ const UserInfoComponent = ({ userImage, updateSession }) => {
             <BiSupport size={20} />
           </ListItemIcon>
           {lang.customer_service}
+        </MenuItem>
+        <MenuItem onClick={() => handleClickPickerMenu({ id: 5, path: "change-password" })}>
+          <ListItemIcon>
+            <HiOutlineKey size={20} />
+          </ListItemIcon>
+          {lang.change_password}
         </MenuItem>
         <MenuItem onClick={onLogOut}>
           <ListItemIcon>
