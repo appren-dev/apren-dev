@@ -1,6 +1,13 @@
-import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
+import {
+	getAuth,
+	signInWithEmailAndPassword,
+	GoogleAuthProvider,
+	signInWithPopup,
+	signOut,
+	updatePassword,
+} from "firebase/auth";
 import { app } from "../firebase/firebaseConfig";
-const auth = getAuth(app);
+export const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
 
 const CredentialsProvider = async ({ email, password }) => {
@@ -23,4 +30,12 @@ const onSingOut = async () => {
 	}
 };
 
-export { CredentialsProvider, GoogleProvider, onSingOut };
+const changePassword = async (newPassword) => {
+	try {
+		return await updatePassword(auth.currentUser, newPassword);
+	} catch (error) {
+		return error;
+	}
+};
+
+export { CredentialsProvider, GoogleProvider, onSingOut, changePassword };

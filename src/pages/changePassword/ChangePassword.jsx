@@ -1,16 +1,23 @@
 import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import { PasswordInput } from "components/password/Password";
+import { auth, changePassword } from "db/api/login";
+import { updatePassword } from "firebase/auth";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 const ChangePassword = () => {
+const user = auth?.currentUser
+
+console.log(user)
 	const { handleChange, handleSubmit } = useFormik({
 		initialValues: {
 			current_password: "",
 			new_password: "",
 			confirm_password: "",
 		},
-		onSubmit: (data) => {
+		onSubmit: async (data) => {
 			console.log(data);
+			let res = await changePassword(data.new_password)
+			console.log("salio bien", res)
 		},
 		validateOnChange: false,
 		validationSchema: Yup.object({}),
