@@ -30,7 +30,7 @@ const CustomButton = styled(Button)`
 	width: 100%;
 	background-color: #147479;
 	border: none;
-	padding: 20px;
+	padding: 14px;
 	color: #2f3349;
 	letter-spacing: 1px;
 	border-radius: 50px;

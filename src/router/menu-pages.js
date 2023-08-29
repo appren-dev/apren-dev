@@ -1,8 +1,16 @@
 import React from "react";
-import { lang } from "lang/config";
 export const Home = React.lazy(() => import("pages/home/Home.jsx"));
+const Login = React.lazy(() => import("pages/auth/login/Login.jsx"));
 
-const noAuthMenu = [
+const authMenu = [
+	{
+		id: 1,
+		route: "/authentication/login",
+		Element: Login,
+	},
+];
+
+const signedMenu = [
 	{
 		id: 1,
 		route: "/",
@@ -10,12 +18,12 @@ const noAuthMenu = [
 	},
 ];
 
-const authMenu = [
+const unSingedMenu = [
 	{
 		id: 1,
-		label: lang.plans,
-		path: "/",
+		route: "/",
+		Element: Home,
 	},
 ];
 
-export { noAuthMenu, authMenu };
+export { signedMenu, unSingedMenu, authMenu };

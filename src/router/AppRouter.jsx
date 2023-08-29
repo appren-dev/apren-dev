@@ -1,7 +1,8 @@
 import React, { Fragment } from "react";
 import { Routes, Route } from "react-router-dom";
-import { Home, authMenu, noAuthMenu } from "./menu-pages";
+import { Home, signedMenu, unSingedMenu, authMenu } from "./menu-pages";
 import MainLayout from "layout/MainLayout";
+import AuthenticationLayout from "pages/auth/authLayout";
 
 export const AppRouter = () => {
 
@@ -10,7 +11,7 @@ export const AppRouter = () => {
 			{sessionStorage.getItem("token") ? (
 				<Fragment>
 					<Route element={<MainLayout />}>
-						{authMenu.map(({ id, route, Element }) => (
+						{signedMenu.map(({ id, route, Element }) => (
 							<Route key={id} path={route} element={<Element />} />
 						))}
 					</Route>
@@ -18,13 +19,17 @@ export const AppRouter = () => {
 			) : (
 				<Fragment>
 					<Route element={<MainLayout />}>
-						{noAuthMenu.map(({ id, route, Element }) => (
+						{unSingedMenu.map(({ id, route, Element }) => (
 							<Route key={id} path={route} element={<Element />} />
 						))}
 					</Route>
 				</Fragment>
 			)}
-			<Route path="/login" element={<div>Login</div>} />
+			<Route path="/authentication" element={<AuthenticationLayout />}>
+				{authMenu.map(({ id, route, Element }) => (
+					<Route key={id} path={route} element={<Element />} />
+				))}
+			</Route>
 			<Route path="/" element={<Home />} />
 			<Route path="*" element={<div>Error</div>} />
 		</Routes>

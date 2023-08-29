@@ -1,7 +1,7 @@
 import { setDoc, doc, collection, updateDoc, getDocs, getDoc, deleteDoc } from "firebase/firestore";
 import { getStorage, ref, uploadBytes } from "firebase/storage";
 import { app, db, realTimeDb, realTimeDbRef } from "./firebaseConfig";
-import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+
 import { set } from "firebase/database";
 
 //Upload Picture to Media Bucket
@@ -37,20 +37,6 @@ export const updateById = (url, id, data) => {
 };
 
 // instance of Auth
-const auth = getAuth(app);
-const googleProvider = new GoogleAuthProvider();
-
-export const onSignin = async ({ email, password }) => {
-	return await signInWithEmailAndPassword(auth, email, password);
-};
-
-export const signInGmail = async () => {
-	try {
-		return await signInWithPopup(auth, googleProvider);
-	} catch (err) {
-		return err;
-	}
-};
 
 export const updateInfo = async () => {
 	const itemCollection = getCollection("clients");
