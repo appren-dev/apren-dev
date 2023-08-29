@@ -1,13 +1,15 @@
 import { Box, CardMedia, Divider, IconButton, ListItemIcon, Menu, MenuItem, Tooltip, Typography } from "@mui/material";
 import { RiSecurePaymentFill, RiLogoutCircleRLine } from "react-icons/ri";
 import { userMenu } from "config/loggedInUserMenu";
-import avatar from "assets/no_user_pic.jpg";
 import { BiSupport } from "react-icons/bi";
 import React, { useState } from "react";
 import { lang } from "lang/config";
 import { useNavigate } from "react-router-dom";
+import { onSingOut } from "db/api/login";
+import { Toast } from "utilities/ToastsHelper";
+import { errorHandler } from "utilities/errorHandler";
 
-const UserInfoComponent = ({ userImage }) => {
+const UserInfoComponent = ({ userImage, updateSession }) => {
   const [anchorElUser, setAnchorElUser] = useState(null);
   const navigate = useNavigate();
   const handleOpenPickerMenu = (event) => {
@@ -24,17 +26,29 @@ const UserInfoComponent = ({ userImage }) => {
     setAnchorElUser(null);
   };
 
+  const onLogOut = async () => {
+    try {
+      await onSingOut();
+      updateSession(null);
+      return sessionStorage.removeItem("data");
+    } catch (error) {
+      const errorMessage = errorHandler(error);
+      Toast.error(errorMessage);
+    }
+  };
+
   return (
     <Box sx={{ flexGrow: 0, display: { xs: "none", md: "block" } }}>
       <Box>
         <Tooltip title={lang.user_settings}>
           <IconButton onClick={handleOpenPickerMenu}>
             <CardMedia
-              width={25}
-              height={25}
-              alt="logged_user"
-              image={userImage || avatar}
-              sx={{ borderRadius: "100%" }}
+              title="logged_user"
+              image={userImage}
+              sx={{
+                borderRadius: "100%", width: 25,
+                height: 25
+              }}
             />
           </IconButton>
         </Tooltip>
@@ -60,7 +74,7 @@ const UserInfoComponent = ({ userImage }) => {
             key={id}
             onClick={() => handleClickPickerMenu({ id, path })}
           >
-            <Typography textAlign="center">{label}</Typography>
+            <Typography color="primary" textAlign="center">{label}</Typography>
           </MenuItem>
         ))}
         <Divider />
@@ -76,7 +90,7 @@ const UserInfoComponent = ({ userImage }) => {
           </ListItemIcon>
           {lang.customer_service}
         </MenuItem>
-        <MenuItem onClick={() => alert("Signed out")}>
+        <MenuItem onClick={onLogOut}>
           <ListItemIcon>
             <RiLogoutCircleRLine size={20} />
           </ListItemIcon>

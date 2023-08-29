@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { CredentialsProvider, GoogleProvider } from "db/api/login";
 import { FIELDEVALUATOR } from "utilities/fieldEvaluator";
 import { errorHandler } from "utilities/errorHandler";
-import { CredentialsProvider, GoogleProvider } from "db/api/login";
 import { Toast } from "utilities/ToastsHelper";
+import { useNavigate } from "react-router";
+import { useState } from "react";
 
 export const useLogin = () => {
 	const [credentials, setCredentials] = useState({ email: "", password: "" });
@@ -17,6 +18,8 @@ export const useLogin = () => {
 		email: null,
 		password: null,
 	});
+
+	const navigate = useNavigate();
 
 	const handleChange = (e) => {
 		const entity = e.target.name;
@@ -35,7 +38,15 @@ export const useLogin = () => {
 		}
 		try {
 			const response = await CredentialsProvider(credentials);
-			console.log("Kz: 🏈 ~ handleSubmit ~ response:", response);
+			const data = {
+				name: response.user.displayName || "No name to show",
+				email: response.user.email,
+				image:
+					response.user.photoURL ||
+					"https://s3.amazonaws.com/pix.iemoji.com/images/emoji/apple/ios-12/256/crazy-face.png",
+				status: "authenticated",
+			};
+			sessionStorage.setItem("data", JSON.stringify(data));
 			setLoading({
 				credentialSigning: false,
 				googleSigning: {
@@ -43,6 +54,7 @@ export const useLogin = () => {
 					message: "",
 				},
 			});
+			return navigate("/", { state: data });
 		} catch (error) {
 			const errorMessage = errorHandler(error);
 			setLoading({
@@ -66,7 +78,6 @@ export const useLogin = () => {
 		});
 		try {
 			const response = await GoogleProvider();
-			console.log("Kz: 🏈 ~ handleSubmit ~ response:", response);
 			setLoading({
 				credentialSigning: false,
 				googleSigning: {
@@ -74,6 +85,27 @@ export const useLogin = () => {
 					message: "",
 				},
 			});
+			if (response) {
+				console.log(response);
+				const data = {
+					name: response.user.displayName || "No name to show",
+					email: response.user.email,
+					image:
+						response.user.photoURL ||
+						"https://s3.amazonaws.com/pix.iemoji.com/images/emoji/apple/ios-12/256/crazy-face.png",
+					status: "authenticated",
+				};
+				sessionStorage.setItem("data", JSON.stringify(data));
+				setLoading({
+					credentialSigning: false,
+					googleSigning: {
+						status: false,
+						message: "",
+					},
+				});
+				return navigate("/", { state: data });
+			}
+			return;
 		} catch (error) {
 			console.log("Kz: 🏈 ~ handleGoogleSigning ~ error:", error);
 			const errorMessage = errorHandler(error);

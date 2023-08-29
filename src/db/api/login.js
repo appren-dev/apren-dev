@@ -1,4 +1,4 @@
-import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
 import { app } from "../firebase/firebaseConfig";
 const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
@@ -15,4 +15,12 @@ const GoogleProvider = async () => {
 	}
 };
 
-export { CredentialsProvider, GoogleProvider };
+const onSingOut = async () => {
+	try {
+		return await signOut(auth);
+	} catch (error) {
+		return error;
+	}
+};
+
+export { CredentialsProvider, GoogleProvider, onSingOut };

@@ -23,10 +23,12 @@ const drawerWidth = 240;
 
 const Navbar = (props) => {
   const { window } = props;
-  const session = sessionStorage.getItem("session");
+  const [session, setSession] = useState(JSON.parse(sessionStorage.getItem("data")));
+  console.log("Kz: 🏈 ~ Navbar ~ session:", session);
+  const { pathname } = useLocation();
   const [navItems] = getNavItems(session);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { pathname } = useLocation();
+
   const navigate = useNavigate();
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -74,7 +76,7 @@ const Navbar = (props) => {
           </ListItem>
         ))}
         {
-          session && session.data?.user && (
+          session !== null && (
             <ListItem disablePadding onClick={() => navigate("/users/jaidervanegas/current-user/edit-profile")}>
               <ListItemButton sx={{ textAlign: "left", padding: "20px 10px" }}>
                 <ListItemText primary={lang.user_settings} sx={{ color: "#20bac2" }} />
@@ -127,8 +129,15 @@ const Navbar = (props) => {
           >
             <BiMenuAltRight color={"white"} size={30} />
           </IconButton>
-          <UserInfoComponent userImage={session?.data?.user.image} />
-
+          {
+            session && (
+              <UserInfoComponent
+                id="1"
+                userImage={session?.image}
+                updateSession={setSession}
+              />
+            )
+          }
         </Toolbar>
       </AppBar>
       <Box component="nav" sx={{ backgroundImage: "none", }}>
