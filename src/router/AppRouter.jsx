@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
 import { Routes, Route } from "react-router-dom";
-import { Home, Elements } from "./menu-pages";
+import { Home, authMenu, noAuthMenu } from "./menu-pages";
+import MainLayout from "layout/MainLayout";
 
 export const AppRouter = () => {
 
@@ -8,16 +9,22 @@ export const AppRouter = () => {
 		<Routes>
 			{sessionStorage.getItem("token") ? (
 				<Fragment>
-					<Route path="/home" element={<Home />} />
-					<Route element={<div>Layout</div>}>
-						{Elements.map(({ id, route, Element }) => (
+					<Route element={<MainLayout />}>
+						{authMenu.map(({ id, route, Element }) => (
 							<Route key={id} path={route} element={<Element />} />
 						))}
 					</Route>
 				</Fragment>
 			) : (
-				<Route path="/login" element={<div>Login</div>} />
+				<Fragment>
+					<Route element={<MainLayout />}>
+						{noAuthMenu.map(({ id, route, Element }) => (
+							<Route key={id} path={route} element={<Element />} />
+						))}
+					</Route>
+				</Fragment>
 			)}
+			<Route path="/login" element={<div>Login</div>} />
 			<Route path="/" element={<Home />} />
 			<Route path="*" element={<div>Error</div>} />
 		</Routes>

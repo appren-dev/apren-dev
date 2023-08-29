@@ -1,38 +1,41 @@
 import { createTheme } from "@mui/material";
-import { red } from "@mui/material/colors";
 
 export const baseTheme = createTheme({
 	palette: {
-		mode: "light",
+		mode: "dark",
 		primary: {
-			main: "#2a3eb1",
-			//color: "rgba(51, 48, 60, 0.87)",
+			main: "#e2e2e2",
+			secondary: "#20bac2",
 		},
 		secondary: {
-			main: "#f50057",
-			//color: "rgba(51, 48, 60, 0.87)",
+			main: "#d0dedb",
+			contrastText: "#25293C",
+		},
+		background: {
+			default: "#25293C",
+			paper: "#2F3349",
+		},
+		success: {
+			main: "#20bac2",
 		},
 	},
 	components: {
 		MuiButton: {
 			styleOverrides: {
 				root: {
-					padding: "3px 9px",
-					backgroundColor: red[800],
-					fontFamily: ["Roboto", "'Press Start 2P', cursive"].join(","),
-					"&:hover": {
-						backgroundColor: red["A700"],
-					},
+					padding: 0,
 				},
 			},
 		},
 	},
 	typography: {
 		fontFamily: ["Roboto", "Helvetica"].join(","),
-		color: "rgba(51, 48, 60, 0.87)",
 		h1: {
 			fontFamily: ["Roboto", "'Press Start 2P', cursive"].join(","),
 			fontSize: 36,
+		},
+		color: {
+			highlight: "#20BAC2",
 		},
 	},
 	breakpoints: {
