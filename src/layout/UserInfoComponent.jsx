@@ -74,7 +74,7 @@ const UserInfoComponent = ({ userImage, updateSession }) => {
             key={id}
             onClick={() => handleClickPickerMenu({ id, path })}
           >
-            <Typography color="primary" textAlign="center">{label}</Typography>
+            <Typography textAlign="center">{label}</Typography>
           </MenuItem>
         ))}
         <Divider />

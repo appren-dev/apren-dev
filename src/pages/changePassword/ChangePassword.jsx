@@ -62,7 +62,7 @@ const ChangePassword = () => {
 				}}
 			>
 				<Grid xs={12} marginBottom={2} item>
-					<Typography align="center" variant="h5" color="primary.main" fontWeight={"bolder"}>
+					<Typography align="center" variant="h5" fontWeight={"bolder"}>
 						¿Quieres cambiar tu contraseña?
 					</Typography>
 				</Grid>
