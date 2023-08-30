@@ -1,12 +1,13 @@
 import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import { PasswordInput } from "components/password/Password";
-import { auth, changePassword, reAuthenticate } from "db/api/login";
-import { updatePassword } from "firebase/auth";
+import { changePassword, reAuthenticate } from "db/api/login";
 import { useFormik } from "formik";
-import { useState } from "react";
 import * as Yup from "yup";
+import { Toast } from "utilities/ToastsHelper";
+import { useNavigate } from "react-router";
+
 const ChangePassword = () => {
-	const [errorMessage, setErrorMessage] = useState(null);
+	const navigate = useNavigate();
 
 	const { handleChange, handleSubmit, errors } = useFormik({
 		initialValues: {
@@ -19,21 +20,22 @@ const ChangePassword = () => {
 			let res = await reAuthenticate(data.current_password);
 			if (res.operationType === "reauthenticate") {
 				await changePassword(data.new_password);
-				setErrorMessage(null);
+				Toast.success("Tu contraseña se cambio con exito");
+				navigate("/");
 			} else {
-				setErrorMessage("Contraseña incorrecta");
+				Toast.error("Tu contraseña actual es incorrecta");
 			}
 		},
 		validateOnChange: false,
 		validationSchema: Yup.object({
-			current_password: Yup.string().required("campo obligatorio"),
+			current_password: Yup.string().required("Campo requerido"),
 			new_password: Yup.string()
-				.required("campo obligatorio")
+				.required("Campo requerido")
 				.matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])/, {
 					message: "La contraseña debe tener al menos 1 mayuscula, 1 minuscula y 1 numero ",
 				}),
 			confirm_password: Yup.string()
-				.required("campo obligatorio")
+				.required("Campo requerido")
 				.oneOf([Yup.ref("new_password")], "Las contraseñas no coinciden"),
 		}),
 	});
@@ -69,7 +71,7 @@ const ChangePassword = () => {
 						label="Contraseña actual"
 						name="current_password"
 						onChange={handleChange}
-						error={errors.current_password || errorMessage ? true : false}
+						error={errors.current_password ? true : false}
 						helpertext={errors.current_password}
 					/>
 				</Grid>

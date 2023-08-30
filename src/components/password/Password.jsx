@@ -38,7 +38,7 @@ export const PasswordInput = (props) => {
         }
         label={props.label}
       />
-      <FormHelperText>{props.helpertext}</FormHelperText>
+      <FormHelperText sx={{color:"#f44336"}}>{props.helpertext}</FormHelperText>
     </FormControl>
   );
 };
