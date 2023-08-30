@@ -34,6 +34,7 @@ const Login = () => {
       <Grid xs={12} marginBottom={2} item>
         <PasswordInput
           name="password"
+          label="Contraseña"
           onChange={handleChange}
           value={credentials.password}
           error={invalidFields?.password}
