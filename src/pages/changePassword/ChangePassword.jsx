@@ -1,14 +1,14 @@
 import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import { PasswordInput } from "components/password/Password";
-import { auth, changePassword } from "db/api/login";
+import { auth, changePassword, reAuthenticate } from "db/api/login";
 import { updatePassword } from "firebase/auth";
 import { useFormik } from "formik";
+import { useState } from "react";
 import * as Yup from "yup";
 const ChangePassword = () => {
-const user = auth?.currentUser
+	const [errorMessage, setErrorMessage] = useState(null);
 
-console.log(user)
-	const { handleChange, handleSubmit } = useFormik({
+	const { handleChange, handleSubmit, errors } = useFormik({
 		initialValues: {
 			current_password: "",
 			new_password: "",
@@ -16,11 +16,26 @@ console.log(user)
 		},
 		onSubmit: async (data) => {
 			console.log(data);
-			let res = await changePassword(data.new_password)
-			console.log("salio bien", res)
+			let res = await reAuthenticate(data.current_password);
+			if (res.operationType === "reauthenticate") {
+				await changePassword(data.new_password);
+				setErrorMessage(null);
+			} else {
+				setErrorMessage("Contraseña incorrecta");
+			}
 		},
 		validateOnChange: false,
-		validationSchema: Yup.object({}),
+		validationSchema: Yup.object({
+			current_password: Yup.string().required("campo obligatorio"),
+			new_password: Yup.string()
+				.required("campo obligatorio")
+				.matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])/, {
+					message: "La contraseña debe tener al menos 1 mayuscula, 1 minuscula y 1 numero ",
+				}),
+			confirm_password: Yup.string()
+				.required("campo obligatorio")
+				.oneOf([Yup.ref("new_password")], "Las contraseñas no coinciden"),
+		}),
 	});
 	return (
 		<Box
@@ -54,16 +69,26 @@ console.log(user)
 						label="Contraseña actual"
 						name="current_password"
 						onChange={handleChange}
+						error={errors.current_password || errorMessage ? true : false}
+						helpertext={errors.current_password}
 					/>
 				</Grid>
 				<Grid xs={12} marginBottom={2} item>
-					<PasswordInput label="Nueva contraseña" name="new_password" onChange={handleChange} />
+					<PasswordInput
+						label="Nueva contraseña"
+						name="new_password"
+						onChange={handleChange}
+						error={errors.new_password ? true : false}
+						helpertext={errors.new_password}
+					/>
 				</Grid>
 				<Grid xs={12} marginBottom={2} item>
 					<PasswordInput
 						label="Confirmar contraseña"
 						name="confirm_password"
 						onChange={handleChange}
+						error={errors.confirm_password ? true : false}
+						helpertext={errors.confirm_password}
 					/>
 				</Grid>
 				<Grid
@@ -75,9 +100,13 @@ console.log(user)
 						justifyContent: "flex-end",
 					}}
 				>
-					<Button variant="contained" type="submit" sx={{
-                        padding: "5px 10px"
-                    }}>
+					<Button
+						variant="contained"
+						type="submit"
+						sx={{
+							padding: "5px 10px",
+						}}
+					>
 						Cambiar
 					</Button>
 				</Grid>

@@ -5,7 +5,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import FormControl from "@mui/material/FormControl";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { OutlinedInput } from "@mui/material";
+import { FormHelperText, OutlinedInput } from "@mui/material";
 
 export const PasswordInput = (props) => {
   const [showPassword, setShowPassword] = React.useState(false);
@@ -38,6 +38,7 @@ export const PasswordInput = (props) => {
         }
         label={props.label}
       />
+      <FormHelperText>{props.helpertext}</FormHelperText>
     </FormControl>
   );
 };

@@ -5,6 +5,8 @@ import {
 	signInWithPopup,
 	signOut,
 	updatePassword,
+	reauthenticateWithCredential,
+	EmailAuthProvider,
 } from "firebase/auth";
 import { app } from "../firebase/firebaseConfig";
 export const auth = getAuth(app);
@@ -38,4 +40,13 @@ const changePassword = async (newPassword) => {
 	}
 };
 
-export { CredentialsProvider, GoogleProvider, onSingOut, changePassword };
+const reAuthenticate = async (oldPassword) => {
+	const credential = EmailAuthProvider.credential(auth.currentUser.email, oldPassword);
+	try {
+		return await reauthenticateWithCredential(auth.currentUser, credential);
+	} catch (error) {
+		return error;
+	}
+};
+
+export { CredentialsProvider, GoogleProvider, onSingOut, changePassword, reAuthenticate };
