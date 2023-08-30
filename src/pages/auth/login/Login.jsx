@@ -45,7 +45,6 @@ const Login = () => {
             <Checkbox
               defaultChecked
               sx={{
-                paddingLeft: 0,
                 color: "white",
                 "&.Mui-checked": {
                   color: "primary.secondary",

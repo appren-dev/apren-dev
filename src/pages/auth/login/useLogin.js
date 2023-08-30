@@ -14,6 +14,15 @@ export const useLogin = () => {
 			message: "",
 		},
 	});
+	const onFalseState = () => {
+		setLoading({
+			credentialSigning: false,
+			googleSigning: {
+				status: false,
+				message: "",
+			},
+		});
+	};
 	const [invalidFields, setInvalidFields] = useState({
 		email: null,
 		password: null,
@@ -34,36 +43,29 @@ export const useLogin = () => {
 		const errorsObject = FIELDEVALUATOR(credentials);
 		const areErrors = Object.keys(errorsObject);
 		if (areErrors.length > 0) {
+			onFalseState();
 			return setInvalidFields(errorsObject);
 		}
 		try {
 			const response = await CredentialsProvider(credentials);
-			const data = {
-				name: response.user.displayName || "No name to show",
-				email: response.user.email,
-				image:
-					response.user.photoURL ||
-					"https://s3.amazonaws.com/pix.iemoji.com/images/emoji/apple/ios-12/256/crazy-face.png",
-				status: "authenticated",
-			};
-			sessionStorage.setItem("data", JSON.stringify(data));
-			setLoading({
-				credentialSigning: false,
-				googleSigning: {
-					status: false,
-					message: "",
-				},
-			});
-			return navigate("/", { state: data });
+			console.log("Kz: 🏈 ~ handleSubmit ~ response:", response);
+			if (!response?.error) {
+				const data = {
+					name: response.name,
+					email: response.email,
+					image: response.image,
+					status: "authenticated",
+				};
+				sessionStorage.setItem("data", JSON.stringify(data));
+				onFalseState();
+				return navigate("/", { state: data });
+			} else {
+				onFalseState();
+				return Toast.error(response.message);
+			}
 		} catch (error) {
 			const errorMessage = errorHandler(error);
-			setLoading({
-				credentialSigning: false,
-				googleSigning: {
-					status: false,
-					message: "",
-				},
-			});
+			onFalseState();
 			return Toast.error(errorMessage);
 		}
 	};

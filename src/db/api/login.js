@@ -1,10 +1,37 @@
 import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
-import { app } from "../firebase/firebaseConfig";
+import { app, getById } from "../firebase/firebaseConfig";
+//import { getIP } from "./getIP";
 const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
 
+const authorizeUserLogin = async (uid) => {
+	try {
+		const userDocument = await getById({
+			name: "registered_users",
+			id: uid,
+		});
+		return userDocument;
+	} catch (error) {
+		return error;
+	}
+};
+
 const CredentialsProvider = async ({ email, password }) => {
-	return await signInWithEmailAndPassword(auth, email, password);
+	try {
+		//const ip = await getIP();
+		const { user } = await signInWithEmailAndPassword(auth, email, password);
+		const userMatched = await authorizeUserLogin(user.uid);
+		if (userMatched) {
+			return userMatched;
+		} else {
+			return {
+				error: "error",
+				message: "Ingreso desde diferente IP",
+			};
+		}
+	} catch (error) {
+		return error;
+	}
 };
 
 const GoogleProvider = async () => {
