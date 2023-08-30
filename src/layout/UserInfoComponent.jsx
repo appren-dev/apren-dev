@@ -1,6 +1,6 @@
 import { Box, CardMedia, Divider, IconButton, ListItemIcon, Menu, MenuItem, Tooltip, Typography } from "@mui/material";
 import { RiSecurePaymentFill, RiLogoutCircleRLine } from "react-icons/ri";
-import { userMenu } from "config/loggedInUserMenu";
+import { userMenu } from "layout/loggedInUserMenu";
 import { BiSupport } from "react-icons/bi";
 import React, { useState } from "react";
 import { lang } from "lang/config";

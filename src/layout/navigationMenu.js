@@ -1,6 +1,5 @@
 import { lang } from "lang/config";
 export const getNavItems = (session) => {
-	console.log(session);
 
 	const noAuthMenu = [
 		{
