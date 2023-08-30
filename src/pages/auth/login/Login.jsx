@@ -7,7 +7,7 @@ import { FcGoogle } from "react-icons/fc";
 import { useLogin } from "./useLogin";
 
 const Login = () => {
-  const { loading, credentials, handleChange, handleSubmit, invalidFields, handleGoogleSigning } = useLogin();
+  const { loading, credentials, handleChange, handleSubmit, invalidFields, setCredentials, handleGoogleSigning } = useLogin();
   return (
     <Grid
       container
@@ -32,18 +32,34 @@ const Login = () => {
         />
       </Grid>
       <Grid xs={12} marginBottom={2} item>
-        <PasswordInput
-          name="password"
-          onChange={handleChange}
-          value={credentials.password}
-          error={invalidFields?.password}
-        />
+        {
+          credentials.showPassword ? (
+            <PasswordInput
+              name="password"
+              onChange={handleChange}
+              value={credentials.password}
+              error={invalidFields?.password}
+            />
+          ) : (
+            <TextField
+              size="small"
+              name="password"
+              type="password"
+              label="Password"
+              sx={{ width: "100%" }}
+              onChange={handleChange}
+              value={credentials.password}
+              error={invalidFields?.password}
+            />
+          )
+        }
       </Grid>
       <Grid xs={12} marginBottom={2} item>
         <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <Box>
             <Checkbox
-              defaultChecked
+              checked={credentials.rememberMe}
+              onChange={() => setCredentials(prevState => ({ ...prevState, rememberMe: !prevState.rememberMe }))}
               sx={{
                 color: "white",
                 "&.Mui-checked": {

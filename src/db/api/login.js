@@ -21,14 +21,17 @@ const CredentialsProvider = async ({ email, password }) => {
 	try {
 		//const ip = await getIP();
 		const { user } = await signInWithEmailAndPassword(auth, email, password);
-		const userMatched = await authorizeUserLogin(user.uid);
-		if (userMatched) {
-			return userMatched;
-		} else {
-			return {
-				error: "error",
-				message: lang.error.message,
-			};
+		if (user) {
+			const userMatched = await authorizeUserLogin(user.uid);
+			if (userMatched) {
+				delete userMatched.password;
+				return userMatched;
+			} else {
+				return {
+					error: "error",
+					message: lang.error.message,
+				};
+			}
 		}
 	} catch (error) {
 		return error;

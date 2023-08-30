@@ -1,13 +1,24 @@
 import { CredentialsProvider, GoogleProvider } from "db/api/login";
 import { FIELDEVALUATOR } from "utilities/fieldEvaluator";
 import { errorHandler } from "utilities/errorHandler";
+import { decrypt, encrypt } from "utilities/getByPass";
 import { Toast } from "utilities/ToastsHelper";
 import { useNavigate } from "react-router";
-import { useState } from "react";
 import { lang } from "lang/config";
+import { useEffect, useState } from "react";
 
 export const useLogin = () => {
-	const [credentials, setCredentials] = useState({ email: "", password: "" });
+	const [credentials, setCredentials] = useState({ email: "", password: "", rememberMe: true, showPassword: true });
+	useEffect(() => {
+		const _auth = JSON.parse(localStorage.getItem("_&_"));
+		if (_auth) {
+			const { _l, _m } = _auth;
+			const decrypted_l = decrypt(_l);
+			const decrypted_m = decrypt(_m);
+			setCredentials({ email: decrypted_l, password: decrypted_m, rememberMe: true, showPassword: false });
+		}
+	}, []);
+
 	const [loading, setLoading] = useState({
 		credentialSigning: false,
 		googleSigning: {
@@ -15,6 +26,7 @@ export const useLogin = () => {
 			message: "",
 		},
 	});
+
 	const onFalseState = () => {
 		setLoading({
 			credentialSigning: false,
@@ -48,9 +60,20 @@ export const useLogin = () => {
 			return setInvalidFields(errorsObject);
 		}
 		try {
+			if (credentials.rememberMe) {
+				const encryptedPass = encrypt(credentials.password);
+				const encryptedEm = encrypt(credentials.email);
+				localStorage.setItem("_&_", JSON.stringify({ _l: encryptedEm, _m: encryptedPass }));
+			} else {
+				localStorage.removeItem("_&_");
+			}
 			const response = await CredentialsProvider(credentials);
 			console.log("Kz: 🏈 ~ handleSubmit ~ response:", response);
-			if (!response?.error) {
+			if (response?.error || response?.message) {
+				onFalseState();
+				const errorMessage = errorHandler(response);
+				return Toast.error(errorMessage);
+			} else {
 				const data = {
 					name: response.name,
 					email: response.email,
@@ -60,9 +83,6 @@ export const useLogin = () => {
 				sessionStorage.setItem("data", JSON.stringify(data));
 				onFalseState();
 				return navigate("/", { state: data });
-			} else {
-				onFalseState();
-				return Toast.error(response.message);
 			}
 		} catch (error) {
 			const errorMessage = errorHandler(error);
@@ -89,7 +109,6 @@ export const useLogin = () => {
 				},
 			});
 			if (response) {
-				console.log(response);
 				const data = {
 					name: response.user.displayName || "No name to show",
 					email: response.user.email,
@@ -110,7 +129,6 @@ export const useLogin = () => {
 			}
 			return;
 		} catch (error) {
-			console.log("Kz: 🏈 ~ handleGoogleSigning ~ error:", error);
 			const errorMessage = errorHandler(error);
 			setLoading({
 				credentialSigning: false,
@@ -129,6 +147,7 @@ export const useLogin = () => {
 		handleChange,
 		handleSubmit,
 		invalidFields,
+		setCredentials,
 		handleGoogleSigning,
 	};
 };
