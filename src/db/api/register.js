@@ -1,9 +1,23 @@
-import { getAuth, createUserWithEmailAndPassword, signOut } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signOut, sendEmailVerification } from "firebase/auth";
 import { app } from "../firebase/firebaseConfig";
 const auth = getAuth(app);
 
 const CredentialsProviderRegister = async ({ email, password }) => {
 	return await createUserWithEmailAndPassword(auth, email, password);
+};
+
+const sendConfirmationEmail = async () => {
+	try {
+	
+            let user = auth.getCurrentUser();
+ 
+            sendEmailVerification()
+
+
+
+	} catch (err) {
+		console.log(err);
+	}
 };
 
 const onSingOut = async () => {
@@ -14,4 +28,4 @@ const onSingOut = async () => {
 	}
 };
 
-export { CredentialsProviderRegister, onSingOut };
+export { CredentialsProviderRegister, sendConfirmationEmail, onSingOut };
