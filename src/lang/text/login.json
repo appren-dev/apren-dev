@@ -1,3 +1,4 @@
 {
-  "btn_title": "Título de Botón"
+  "login_btn_title": "Título de Botón",
+  "login_error_message": "Ingreso desde diferente IP"
 }

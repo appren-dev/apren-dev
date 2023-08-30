@@ -1,5 +1,6 @@
 import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
 import { app, getById } from "../firebase/firebaseConfig";
+import { lang } from "lang/config";
 //import { getIP } from "./getIP";
 const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
@@ -26,7 +27,7 @@ const CredentialsProvider = async ({ email, password }) => {
 		} else {
 			return {
 				error: "error",
-				message: "Ingreso desde diferente IP",
+				message: lang.error.message,
 			};
 		}
 	} catch (error) {

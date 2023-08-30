@@ -1,0 +1,4 @@
+{
+  "session_status_success": "authenticated",
+  "session_status_idle": "unauthenticated"
+}

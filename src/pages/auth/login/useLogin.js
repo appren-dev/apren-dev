@@ -4,6 +4,7 @@ import { errorHandler } from "utilities/errorHandler";
 import { Toast } from "utilities/ToastsHelper";
 import { useNavigate } from "react-router";
 import { useState } from "react";
+import { lang } from "lang/config";
 
 export const useLogin = () => {
 	const [credentials, setCredentials] = useState({ email: "", password: "" });
@@ -54,7 +55,7 @@ export const useLogin = () => {
 					name: response.name,
 					email: response.email,
 					image: response.image,
-					status: "authenticated",
+					status: lang.session_status_success,
 				};
 				sessionStorage.setItem("data", JSON.stringify(data));
 				onFalseState();
