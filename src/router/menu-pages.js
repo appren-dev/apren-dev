@@ -11,7 +11,7 @@ const authMenu = [
 	},
 	{
 		id: 2,
-		route: "/authentication/register",
+		route: "/authentication/registration",
 		Element: Register,
 	},
 ];

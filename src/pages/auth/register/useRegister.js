@@ -7,6 +7,7 @@ import { useState } from "react";
 import { getAuth, sendEmailVerification } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { app, db } from "db/firebase/firebaseConfig";
+import { useNavigate } from "react-router";
 const auth = getAuth(app);
 
 export const useRegister = () => {
@@ -30,7 +31,7 @@ export const useRegister = () => {
 		repeatPassword: null,
 	});
 
-	/* const navigate = useNavigate(); */
+	const navigate = useNavigate();
 
 	const handleChange = (e) => {
 		const entity = e.target.name;
@@ -51,47 +52,28 @@ export const useRegister = () => {
 		try {
 			const response = await CredentialsProviderRegister(credentialsRegister);
 			console.log("response del register: ", response);
-			// Create user in database with emailVerified set to false
-			const data = {
-				name: response.user.displayName || "No name to show",
-				email: response.user.email,
-				image:
-					response.user.photoURL ||
-					"https://s3.amazonaws.com/pix.iemoji.com/images/emoji/apple/ios-12/256/crazy-face.png",
-				status: "authenticated",
-				emailVerified: response.user.emailVerified,
-			};
+
+			if (response?.user) {
+				const verification = await sendEmailVerification(response.user);
+				navigate("/confirmation")
+				console.log(" respuesta del verification del sendEmailVerification ", verification);
+
+				const data = {
+					name: response.user.displayName || "No name to show",
+					email: response.user.email,
+					image:
+						response.user.photoURL ||
+						"https://s3.amazonaws.com/pix.iemoji.com/images/emoji/apple/ios-12/256/crazy-face.png",
+					status: "authenticated",
+					emailVerified: response.user.emailVerified,
+				};
+			}
+
 			/* setDoc(doc(db, "users", response.user.uid), {
                ...data,
 				emailVerified: false,
               ); */
 
-			//let actionCodeSettings = { url: 'https://www.example.com/?email=' + response.user.email}
-			const verification = await sendEmailVerification(response.user);
-			/* alert("Se ha enviado un link a tu correo para validar tu email"); */
-			console.log(" respuesta del verification del sendEmailVerification ", verification);
-
-			verification.then((result) => {
-                console.log(result)
-				if (result.verified) {
-					// Do something when the user clicks the link
-					// This code will only execute if the verification was successful
-				}
-			});
-			//ahora --> response.user.isEmailVerified() === true
-
-			/*console.log("response de firebase: ", response);*/
-
-			console.log(data);
-			sessionStorage.setItem("dataRegister", JSON.stringify(data));
-			/* 			setLoading({
-				credentialSigning: false,
-				googleSigning: {
-					status: false,
-					message: "",
-				},
-			});
-			return navigate("/", { state: data }); */
 		} catch (error) {
 			console.log(error);
 			const errorMessage = errorHandler(error);

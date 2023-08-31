@@ -6,7 +6,7 @@ const CredentialsProviderRegister = async ({ email, password }) => {
 	return await createUserWithEmailAndPassword(auth, email, password);
 };
 
-const sendConfirmationEmail = async () => {
+/* const sendConfirmationEmail = async () => {
 	try {
 	
             let user = auth.getCurrentUser();
@@ -18,7 +18,7 @@ const sendConfirmationEmail = async () => {
 	} catch (err) {
 		console.log(err);
 	}
-};
+}; */
 
 const onSingOut = async () => {
 	try {
@@ -28,4 +28,4 @@ const onSingOut = async () => {
 	}
 };
 
-export { CredentialsProviderRegister, sendConfirmationEmail, onSingOut };
+export { CredentialsProviderRegister/* , sendConfirmationEmail */, onSingOut };
