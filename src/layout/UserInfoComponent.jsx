@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { onSingOut } from "db/api/login";
 import { Toast } from "utilities/ToastsHelper";
 import { errorHandler } from "utilities/errorHandler";
-import {HiOutlineKey} from "react-icons/hi"
+import { HiOutlineKey } from "react-icons/hi";
 const UserInfoComponent = ({ userImage, updateSession }) => {
   const [anchorElUser, setAnchorElUser] = useState(null);
   const navigate = useNavigate();
