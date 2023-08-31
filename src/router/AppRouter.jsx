@@ -1,4 +1,3 @@
-import React from "react";
 import { signedMenu, unSingedMenu, authMenu } from "./menu-pages";
 import AuthenticationLayout from "pages/auth/authLayout";
 import { Routes, Route } from "react-router-dom";

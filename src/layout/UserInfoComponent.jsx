@@ -1,14 +1,15 @@
+import { useState } from "react";
 import { Box, CardMedia, Divider, IconButton, ListItemIcon, Menu, MenuItem, Tooltip, Typography } from "@mui/material";
 import { RiSecurePaymentFill, RiLogoutCircleRLine } from "react-icons/ri";
-import { userMenu } from "layout/loggedInUserMenu";
-import { BiSupport } from "react-icons/bi";
-import React, { useState } from "react";
-import { lang } from "lang/config";
-import { useNavigate } from "react-router-dom";
-import { onSingOut } from "db/api/login";
-import { Toast } from "utilities/ToastsHelper";
 import { errorHandler } from "utilities/errorHandler";
+import { userMenu } from "layout/loggedInUserMenu";
+import { useNavigate } from "react-router-dom";
+import { Toast } from "utilities/ToastsHelper";
 import { HiOutlineKey } from "react-icons/hi";
+import { BiSupport } from "react-icons/bi";
+import { onSingOut } from "db/api/login";
+import { lang } from "lang/config";
+
 const UserInfoComponent = ({ userImage, updateSession }) => {
   const [anchorElUser, setAnchorElUser] = useState(null);
   const navigate = useNavigate();

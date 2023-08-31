@@ -1,4 +1,3 @@
-import React from "react";
 import { ChangePasswordBox, ChangePasswordContainer } from "styles/components/changePassword";
 import { CustomButton } from "styles/components/authcomponents";
 import { changePassword, reAuthenticate } from "db/api/login";

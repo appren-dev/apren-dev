@@ -1,17 +1,16 @@
-import React, { Fragment } from "react";
+import { outletContainer } from "styles/objects/mainLayout";
 import { Outlet } from "react-router";
 import { Box } from "@mui/material";
+import { Fragment } from "react";
 import Navbar from "./Navbar";
 
-const MainLayout = () => {
-  return (
-    <Fragment>
-      <Navbar />
-      <Box sx={{ padding: { xs: "52px 20px 10px 20px", sm: "52px 25px 10px 30px" } }}>
-        <Outlet />
-      </Box>
-    </Fragment>
-  );
-};
+const MainLayout = () => (
+  <Fragment>
+    <Navbar />
+    <Box sx={outletContainer}>
+      <Outlet />
+    </Box>
+  </Fragment>
+);
 
 export default MainLayout;

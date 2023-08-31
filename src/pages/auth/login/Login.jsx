@@ -1,4 +1,3 @@
-import React from "react";
 import { Box, Grid, TextField, Typography, Checkbox } from "@mui/material";
 import { CustomButton, GoogleButton } from "styles/components/authcomponents";
 import CustomLoadingButton from "components/loadingButton";
