@@ -17,17 +17,22 @@ const Register = () => {
 		/* handleGoogleSigning, */
 	} = useRegister();
 
-	const { handleSubmit, handleChange, values, errors } = useFormik({
-		validateOnBlur: false,
+	const { handleSubmit, handleChange, handleBlur, setFieldTouched, values, errors, touched } =
+		useFormik({
+			validateOnBlur: true,
 
-		validateOnChange: true,
+			validateOnChange: false,
 
-		initialValues,
+			initialValues,
 
-		validationSchema: getValidationSchema(),
+			validationSchema: getValidationSchema(),
 
-		onSubmit: (data) => handleSubmitRegistration(data),
-	});
+			onSubmit: (data) => handleSubmitRegistration(data),
+		});
+
+	/* 	const handleFieldChange = (event) => {
+		handleChange(event);
+	}; */
 
 	return (
 		<Grid container spacing={1} component="form" onSubmit={handleSubmit}>
@@ -43,9 +48,10 @@ const Register = () => {
 					label="Name"
 					sx={{ width: "100%" }}
 					onChange={handleChange}
+					onBlur={handleBlur}
 					value={values.name}
-					error={errors.name ? true : false}
-					helperText={errors.name ? errors.name : ""}
+					error={errors.name && touched.name ? true : false}
+					helperText={errors.name && touched.name ? errors.name : ""}
 				/>
 			</Grid>
 			<Grid xs={12} marginBottom={2} item>
@@ -55,9 +61,10 @@ const Register = () => {
 					label="Email"
 					sx={{ width: "100%" }}
 					onChange={handleChange}
+					onBlur={handleBlur}
 					value={values.email}
-					error={errors.email ? true : false}
-					helperText={errors.email ? errors.email : ""}
+					error={errors.email && touched.email ? true : false}
+					helperText={errors.email && touched.email ? errors.email : ""}
 				/>
 			</Grid>
 			<Grid xs={12} marginBottom={2} item>
@@ -65,11 +72,12 @@ const Register = () => {
 					name="password"
 					label="Contraseña"
 					onChange={handleChange}
+					onBlur={handleBlur}
 					value={values.password}
-					error={errors.password ? true : false}
+					error={errors.password && touched.password ? true : false}
 				/>
 				<FormHelperText sx={{ color: "#f44336", pl: "15px" }}>
-					{errors.password ? errors.password : ""}
+					{errors.password && touched.password ? errors.password : ""}
 				</FormHelperText>
 			</Grid>
 			<Grid xs={12} marginBottom={2} item>
@@ -77,11 +85,12 @@ const Register = () => {
 					name="repeatPassword"
 					label="Confirmar Contraseña"
 					onChange={handleChange}
+					onBlur={handleBlur}
 					value={values.repeatPassword}
-					error={errors.repeatPassword ? true : false}
+					error={errors.repeatPassword && touched.repeatPassword ? true : false}
 				/>
 				<FormHelperText sx={{ color: "#f44336", pl: "15px" }}>
-					{errors.repeatPassword ? errors.repeatPassword : ""}
+					{errors.repeatPassword && touched.repeatPassword ? errors.repeatPassword : ""}
 				</FormHelperText>
 			</Grid>
 

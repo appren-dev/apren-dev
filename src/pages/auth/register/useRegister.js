@@ -104,6 +104,8 @@ export const useRegister = () => {
 		}
 	};
 
+	
+
 	return {
 		loading,
 		initialValues,
