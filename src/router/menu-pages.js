@@ -1,5 +1,6 @@
 import Login from "pages/auth/login/Login";
 import ChangePassword from "pages/changePassword/ChangePassword";
+import ForgotPassword from "pages/forgotPassword/ForgotPassword";
 import Home from "pages/home/Home";
 
 const authMenu = [
@@ -7,6 +8,11 @@ const authMenu = [
 		id: 1,
 		route: "/authentication/login",
 		Element: Login,
+	},
+	{
+		id: 2,
+		route: "/authentication/forgot-password",
+		Element: ForgotPassword ,
 	},
 ];
 
