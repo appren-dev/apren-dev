@@ -1,4 +1,12 @@
 {
   "login_btn_title": "Título de Botón",
-  "login_error_message": "Ingreso desde diferente IP"
+  "login_error_message": "Ingreso desde diferente IP",
+  "login_page_title": "Bienvenido",
+  "login_pass_field": "Contraseña",
+  "login_email_field": "Correo",
+  "login_check_btn": "Recordarme",
+  "login_forget_field": "Olvidé mi contraseña",
+  "login_init_session": "Iniciar sesión con",
+  "login_not_an_account_yet": "¿Aún no tienes cuenta?",
+  "login_google_session_init": "Iniciando Google..."
 }

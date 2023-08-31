@@ -1,5 +1,4 @@
 import { app, getById } from "../firebase/firebaseConfig";
-import { lang } from "lang/config";
 //import { getIP } from "./getIP";
 import {
 	getAuth,
@@ -31,16 +30,15 @@ const CredentialsProvider = async ({ email, password }) => {
 		//const ip = await getIP();
 		const { user } = await signInWithEmailAndPassword(auth, email, password);
 		if (user) {
-			const userMatched = await authorizeUserLogin(user.uid);
-			if (userMatched) {
+			try {
+				const userMatched = await authorizeUserLogin(user.uid);
 				delete userMatched.password;
 				return userMatched;
-			} else {
-				throw new Error({
-					status: 404,
-					error: "error",
-					message: lang.error.message,
-				});
+			} catch (error) {
+				return {
+					error: 404,
+					message: "auth(/not-authorized).",
+				};
 			}
 		}
 	} catch (error) {
@@ -50,7 +48,19 @@ const CredentialsProvider = async ({ email, password }) => {
 
 const GoogleProvider = async () => {
 	try {
-		return await signInWithPopup(auth, googleProvider);
+		const { user } = await signInWithPopup(auth, googleProvider);
+		if (user) {
+			try {
+				const userMatched = await authorizeUserLogin(user.uid);
+				delete userMatched.password;
+				return userMatched;
+			} catch (error) {
+				return {
+					error: 404,
+					message: "auth(/not-authorized).",
+				};
+			}
+		}
 	} catch (err) {
 		return err;
 	}

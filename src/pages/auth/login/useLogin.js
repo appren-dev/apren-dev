@@ -3,19 +3,29 @@ import { FIELDEVALUATOR } from "utilities/fieldEvaluator";
 import { errorHandler } from "utilities/errorHandler";
 import { decrypt, encrypt } from "utilities/getByPass";
 import { Toast } from "utilities/ToastsHelper";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { lang } from "lang/config";
-import { useEffect, useState } from "react";
 
 export const useLogin = () => {
-	const [credentials, setCredentials] = useState({ email: "", password: "", rememberMe: true, showPassword: true });
+	const [credentials, setCredentials] = useState({
+		email: "",
+		password: "",
+		rememberMe: true,
+		showPassword: true,
+	});
 	useEffect(() => {
 		const _auth = JSON.parse(localStorage.getItem("_&_"));
 		if (_auth) {
 			const { _l, _m } = _auth;
 			const decrypted_l = decrypt(_l);
 			const decrypted_m = decrypt(_m);
-			setCredentials({ email: decrypted_l, password: decrypted_m, rememberMe: true, showPassword: false });
+			setCredentials({
+				email: decrypted_l,
+				password: decrypted_m,
+				rememberMe: true,
+				showPassword: false,
+			});
 		}
 	}, []);
 
@@ -68,7 +78,7 @@ export const useLogin = () => {
 				localStorage.removeItem("_&_");
 			}
 			const response = await CredentialsProvider(credentials);
-			console.log("Kz: 🏈 ~ handleSubmit ~ response:", response);
+
 			if (response?.error || response?.message) {
 				onFalseState();
 				const errorMessage = errorHandler(response);
@@ -96,47 +106,30 @@ export const useLogin = () => {
 			credentialSigning: false,
 			googleSigning: {
 				status: true,
-				message: "Iniciando auth Google...",
+				message: lang.login_google_session_init,
 			},
 		});
 		try {
 			const response = await GoogleProvider();
-			setLoading({
-				credentialSigning: false,
-				googleSigning: {
-					status: false,
-					message: "",
-				},
-			});
-			if (response) {
+			onFalseState();
+			if (response?.error || response?.message) {
+				onFalseState();
+				const errorMessage = errorHandler(response);
+				return Toast.error(errorMessage);
+			} else {
 				const data = {
-					name: response.user.displayName || "No name to show",
-					email: response.user.email,
-					image:
-						response.user.photoURL ||
-						"https://s3.amazonaws.com/pix.iemoji.com/images/emoji/apple/ios-12/256/crazy-face.png",
-					status: "authenticated",
+					name: response.name,
+					email: response.email,
+					image: response.image,
+					status: lang.session_status_success,
 				};
 				sessionStorage.setItem("data", JSON.stringify(data));
-				setLoading({
-					credentialSigning: false,
-					googleSigning: {
-						status: false,
-						message: "",
-					},
-				});
+				onFalseState();
 				return navigate("/", { state: data });
 			}
-			return;
 		} catch (error) {
 			const errorMessage = errorHandler(error);
-			setLoading({
-				credentialSigning: false,
-				googleSigning: {
-					status: false,
-					message: "",
-				},
-			});
+			onFalseState();
 			return Toast.error(errorMessage);
 		}
 	};
