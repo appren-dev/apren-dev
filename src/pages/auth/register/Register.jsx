@@ -1,21 +1,36 @@
-import { Box, Grid, TextField, Typography } from "@mui/material";
+import { Box, FormHelperText, Grid, TextField, Typography } from "@mui/material";
 import { CustomButton /* GoogleButton */ } from "styles/components/authcomponents";
 /* import CustomLoadingButton from "components/loadingButton"; */
 import { PasswordInput } from "components/password/Password";
 import { useRegister } from "./useRegister";
 import { lang } from "lang/config";
+import { useFormik } from "formik";
+
 /* import { FcGoogle } from "react-icons/fc"; */
 
 const Register = () => {
 	const {
-		credentialsRegister,
-		/*loading */ handleChange,
-		handleSubmit,
-		invalidFields /*handleGoogleSigning */,
+		/*loading ,*/
+		handleSubmitRegistration,
+		initialValues,
+		getValidationSchema,
+		/* handleGoogleSigning, */
 	} = useRegister();
 
+	const { handleSubmit, handleChange, values, errors } = useFormik({
+		validateOnBlur: false,
+
+		validateOnChange: true,
+
+		initialValues,
+
+		validationSchema: getValidationSchema(),
+
+		onSubmit: (data) => handleSubmitRegistration(data),
+	});
+
 	return (
-		<Grid container spacing={1} component="form" onSubmit={(e) => handleSubmit(e)}>
+		<Grid container spacing={1} component="form" onSubmit={handleSubmit}>
 			<Grid xs={12} marginBottom={2} item>
 				<Typography variant="h4" color="primary.main" fontWeight={"bolder"}>
 					Sign Up
@@ -28,8 +43,9 @@ const Register = () => {
 					label="Name"
 					sx={{ width: "100%" }}
 					onChange={handleChange}
-					value={credentialsRegister.name}
-					error={invalidFields?.name}
+					value={values.name}
+					error={errors.name ? true : false}
+					helperText={errors.name ? errors.name : ""}
 				/>
 			</Grid>
 			<Grid xs={12} marginBottom={2} item>
@@ -39,8 +55,9 @@ const Register = () => {
 					label="Email"
 					sx={{ width: "100%" }}
 					onChange={handleChange}
-					value={credentialsRegister.email}
-					error={invalidFields?.email}
+					value={values.email}
+					error={errors.email ? true : false}
+					helperText={errors.email ? errors.email : ""}
 				/>
 			</Grid>
 			<Grid xs={12} marginBottom={2} item>
@@ -48,18 +65,24 @@ const Register = () => {
 					name="password"
 					label="Contraseña"
 					onChange={handleChange}
-					value={credentialsRegister.password}
-					error={invalidFields?.password}
+					value={values.password}
+					error={errors.password ? true : false}
 				/>
+				<FormHelperText sx={{ color: "#f44336", pl: "15px" }}>
+					{errors.password ? errors.password : ""}
+				</FormHelperText>
 			</Grid>
 			<Grid xs={12} marginBottom={2} item>
 				<PasswordInput
 					name="repeatPassword"
 					label="Confirmar Contraseña"
 					onChange={handleChange}
-					value={credentialsRegister.repeatPassword}
-					error={invalidFields?.repeatPassword}
+					value={values.repeatPassword}
+					error={errors.repeatPassword ? true : false}
 				/>
+				<FormHelperText sx={{ color: "#f44336", pl: "15px" }}>
+					{errors.repeatPassword ? errors.repeatPassword : ""}
+				</FormHelperText>
 			</Grid>
 
 			<Grid xs={12} marginBottom={2} item>

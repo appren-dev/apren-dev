@@ -6,6 +6,7 @@ import { useNavigate } from "react-router";
 
 const Confirmation = () => {
 	let navigate = useNavigate();
+  
 	const [status, setStatus] = useState(lang.confirmation_message_send);
 
 	useEffect(() => {

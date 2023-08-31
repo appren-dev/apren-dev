@@ -7,16 +7,18 @@ import { useState } from "react";
 import { sendEmailVerification } from "firebase/auth";
 /* import { doc, setDoc } from "firebase/firestore"; */
 import { useNavigate } from "react-router";
+import * as Yup from "yup";
+
 const defaultImage =
 	"https://as2.ftcdn.net/v2/jpg/05/49/98/39/1000_F_549983970_bRCkYfk0P6PP5fKbMhZMIb07mCJ6esXL.jpg";
 
 export const useRegister = () => {
-	const [credentialsRegister, setCredentialsRegister] = useState({
+	const initialValues = {
 		name: "",
 		email: "",
 		password: "",
 		repeatPassword: "",
-	});
+	};
 	const [loading, setLoading] = useState({
 		credentialSigning: false,
 		googleSigning: {
@@ -24,34 +26,51 @@ export const useRegister = () => {
 			message: "",
 		},
 	});
-	const [invalidFields, setInvalidFields] = useState({
+	/* 	const [invalidFields, setInvalidFields] = useState({
 		name: null,
 		email: null,
 		password: null,
 		repeatPassword: null,
-	});
+	}); */
 
 	const navigate = useNavigate();
 
-	const handleChange = (e) => {
+	/* const handleChange = (e) => {
 		const entity = e.target.name;
 		const value = e.target.value;
 		setCredentialsRegister((prevState) => ({ ...prevState, [entity]: value }));
 		setInvalidFields((prevState) => ({ ...prevState, [entity]: null }));
-	};
+	}; */
 
-	const handleSubmit = async (e) => {
+	const VALID_PASSWORD_REGEX =
+		/^(?=.*?[A-Z])(?=.*[\u0021-\u002b\u003c-\u0040])(?=.*?[a-z])(?=.*?[0-9]).{8,20}$/;
+	const getValidationSchema = () =>
+		Yup.lazy(() =>
+			Yup.object().shape({
+				name: Yup.string().required("Campo Obligatorio"),
+
+				email: Yup.string().email().required("Campo Obligatorio"),
+
+				password: Yup.string()
+					.min(8, "La contraseña debe tener al menos 8 caracteres")
+					.max(20, "La contraseña no debe superar los 20 caracteres")
+					.required("Campo Obligatorio")
+					.matches(
+						VALID_PASSWORD_REGEX,
+						"La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial",
+					),
+
+				repeatPassword: Yup.string()
+					.oneOf([Yup.ref("password"), null], "Las contraseñas no  coinciden")
+					.required("Campo Obligatorio"),
+			}),
+		);
+
+	const handleSubmitRegistration = async (values) => {
 		setLoading({ credentialSigning: true });
-		e.preventDefault();
 
-		/* const errorsObject = FIELDEVALUATOR(credentialsRegister);
-		const areErrors = Object.keys(errorsObject);
-		if (areErrors.length > 0) {
-            return setInvalidFields(errorsObject);
-		} */
 		try {
-			const response = await CredentialsProviderRegister(credentialsRegister);
-			console.log("response del register: ", response);
+			const response = await CredentialsProviderRegister(values);
 
 			if (response?.user) {
 				const data = {
@@ -87,9 +106,9 @@ export const useRegister = () => {
 
 	return {
 		loading,
-		credentialsRegister,
-		handleChange,
-		handleSubmit,
-		invalidFields,
+		initialValues,
+		getValidationSchema,
+		/* handleChange ,*/
+		handleSubmitRegistration,
 	};
 };
