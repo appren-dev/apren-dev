@@ -13,7 +13,7 @@ import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import logo from "../assets/apren-dev_logo_no_bg.png";
 import UserInfoComponent from "./UserInfoComponent";
-import { getNavItems } from "config/navigationMenu";
+import { getNavItems } from "layout/navigationMenu";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemButton from "@mui/material/ListItemButton";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -24,7 +24,6 @@ const drawerWidth = 240;
 const Navbar = (props) => {
   const { window } = props;
   const [session, setSession] = useState(JSON.parse(sessionStorage.getItem("data")));
-  console.log("Kz: 🏈 ~ Navbar ~ session:", session);
   const { pathname } = useLocation();
   const [navItems] = getNavItems(session);
   const [mobileOpen, setMobileOpen] = useState(false);

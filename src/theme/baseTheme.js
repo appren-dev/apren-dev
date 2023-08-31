@@ -27,6 +27,13 @@ export const baseTheme = createTheme({
 				},
 			},
 		},
+		MuiTypography:{
+			styleOverrides:{
+				root:{
+					color: "#e2e2e2"
+				}
+			}
+		}
 	},
 	typography: {
 		fontFamily: ["Roboto", "Helvetica"].join(","),
@@ -34,9 +41,8 @@ export const baseTheme = createTheme({
 			fontFamily: ["Roboto", "'Press Start 2P', cursive"].join(","),
 			fontSize: 36,
 		},
-		color: {
-			highlight: "#20BAC2",
-		},
+		
+		
 	},
 	breakpoints: {
 		values: {

@@ -16,7 +16,7 @@ const Login = () => {
       onSubmit={(e) => handleSubmit(e)}
     >
       <Grid xs={12} marginBottom={2} item>
-        <Typography variant="h4" color="primary.main" fontWeight={"bolder"}>
+        <Typography variant="h4" fontWeight={"bolder"}>
           Log in
         </Typography>
       </Grid >
@@ -37,6 +37,7 @@ const Login = () => {
           onChange={handleChange}
           value={credentials.password}
           error={invalidFields?.password}
+          label="Contraseña"
         />
       </Grid>
       <Grid xs={12} marginBottom={2} item>
