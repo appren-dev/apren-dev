@@ -1,8 +1,17 @@
-import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
 import { app, getById } from "../firebase/firebaseConfig";
 import { lang } from "lang/config";
 //import { getIP } from "./getIP";
-const auth = getAuth(app);
+import {
+	getAuth,
+	signInWithEmailAndPassword,
+	GoogleAuthProvider,
+	signInWithPopup,
+	signOut,
+	updatePassword,
+	reauthenticateWithCredential,
+	EmailAuthProvider,
+} from "firebase/auth";
+export const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
 
 const authorizeUserLogin = async (uid) => {
@@ -27,10 +36,11 @@ const CredentialsProvider = async ({ email, password }) => {
 				delete userMatched.password;
 				return userMatched;
 			} else {
-				return {
+				throw new Error({
+					status: 404,
 					error: "error",
 					message: lang.error.message,
-				};
+				});
 			}
 		}
 	} catch (error) {
@@ -54,4 +64,21 @@ const onSingOut = async () => {
 	}
 };
 
-export { CredentialsProvider, GoogleProvider, onSingOut };
+const changePassword = async (newPassword) => {
+	try {
+		return await updatePassword(auth.currentUser, newPassword);
+	} catch (error) {
+		return error;
+	}
+};
+
+const reAuthenticate = async (oldPassword) => {
+	const credential = EmailAuthProvider.credential(auth.currentUser.email, oldPassword);
+	try {
+		return await reauthenticateWithCredential(auth.currentUser, credential);
+	} catch (error) {
+		return error;
+	}
+};
+
+export { CredentialsProvider, GoogleProvider, onSingOut, changePassword, reAuthenticate };

@@ -13,7 +13,7 @@ import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import logo from "../assets/apren-dev_logo_no_bg.png";
 import UserInfoComponent from "./UserInfoComponent";
-import { getNavItems } from "config/navigationMenu";
+import { getNavItems } from "layout/navigationMenu";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemButton from "@mui/material/ListItemButton";
 import { useNavigate, useLocation } from "react-router-dom";
