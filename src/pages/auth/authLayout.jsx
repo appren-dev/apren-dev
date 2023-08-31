@@ -1,4 +1,3 @@
-import React from "react";
 import { AuthContainer, AuthBox } from "styles/components/authcomponents";
 import { Box, Typography } from "@mui/material";
 import { CardMedia } from "@mui/material";

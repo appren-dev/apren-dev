@@ -1,13 +1,13 @@
-import React from "react";
 import { Box, Grid, TextField, Typography, Checkbox } from "@mui/material";
 import { CustomButton, GoogleButton } from "styles/components/authcomponents";
 import CustomLoadingButton from "components/loadingButton";
 import { PasswordInput } from "components/password/Password";
 import { FcGoogle } from "react-icons/fc";
 import { useLogin } from "./useLogin";
+import { lang } from "lang/config";
 
 const Login = () => {
-  const { loading, credentials, handleChange, handleSubmit, invalidFields, handleGoogleSigning } = useLogin();
+  const { loading, credentials, handleChange, handleSubmit, invalidFields, setCredentials, handleGoogleSigning } = useLogin();
   return (
     <Grid
       container
@@ -17,43 +17,58 @@ const Login = () => {
     >
       <Grid xs={12} marginBottom={2} item>
         <Typography variant="h4" fontWeight={"bolder"}>
-          Log in
+          {lang.login_page_title}
         </Typography>
       </Grid >
       <Grid xs={12} marginBottom={2} item>
         <TextField
           size="small"
           name="email"
-          label="Email"
           sx={{ width: "100%" }}
           onChange={handleChange}
           value={credentials.email}
           error={invalidFields?.email}
+          label={lang.login_email_field}
         />
       </Grid>
       <Grid xs={12} marginBottom={2} item>
-        <PasswordInput
-          name="password"
-          onChange={handleChange}
-          value={credentials.password}
-          error={invalidFields?.password}
-          label="Contraseña"
-        />
+        {
+          credentials.showPassword ? (
+            <PasswordInput
+              name="password"
+              onChange={handleChange}
+              value={credentials.password}
+              label={lang.login_pass_field}
+              error={invalidFields?.password}
+            />
+          ) : (
+            <TextField
+              size="small"
+              name="password"
+              type="password"
+              sx={{ width: "100%" }}
+              onChange={handleChange}
+              value={credentials.password}
+              label={lang.login_pass_field}
+              error={invalidFields?.password}
+            />
+          )
+        }
       </Grid>
       <Grid xs={12} marginBottom={2} item>
         <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <Box>
             <Checkbox
-              defaultChecked
+              checked={credentials.rememberMe}
+              onChange={() => setCredentials(prevState => ({ ...prevState, rememberMe: !prevState.rememberMe }))}
               sx={{
-                paddingLeft: 0,
                 color: "white",
                 "&.Mui-checked": {
                   color: "primary.secondary",
                 },
               }}
             />
-            <Typography variant="caption" color="secondary">Recordarme</Typography>
+            <Typography variant="caption" color="secondary">{lang.login_check_btn}</Typography>
           </Box>
           <Typography
             variant="caption"
@@ -65,7 +80,7 @@ const Login = () => {
               }
             }}
           >
-            Olvidé mi contraseña
+            {lang.login_forget_field}
           </Typography>
         </Box>
       </Grid>
@@ -77,7 +92,7 @@ const Login = () => {
             />
           ) : (
             <CustomButton type="submit">
-              Iniciar sesión
+              {lang.login_init_session.replace("con", "")}
             </CustomButton>
           )
         }
@@ -94,7 +109,7 @@ const Login = () => {
             />
           ) : (
             <GoogleButton type="button" onClick={handleGoogleSigning}>
-              <FcGoogle size={50} />Iniciar sesión con Google
+              <FcGoogle size={47} />{lang.login_init_session} Google
             </GoogleButton>
           )
         }
@@ -111,7 +126,7 @@ const Login = () => {
             }
           }}
         >
-          ¿Aún no tienes cuenta?
+          {lang.login_not_an_account_yet}
         </Typography>
       </Grid>
     </Grid>

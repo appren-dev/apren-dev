@@ -5,12 +5,12 @@ import { baseTheme } from "./baseTheme";
 const ThemeContext = React.createContext({});
 
 const ThemeContextProvider = ({ children }) => {
- 
+
 
   return (
     <ThemeContext.Provider value={{
       toggleColorMode: () => {
-        return "dark"
+        return "dark";
       },
     }}>
       <ThemeProvider theme={baseTheme}>

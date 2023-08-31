@@ -1,9 +1,8 @@
-import { Routes, Route } from "react-router-dom";
 import { signedMenu, unSingedMenu, authMenu } from "./menu-pages";
-import MainLayout from "layout/MainLayout";
 import AuthenticationLayout from "pages/auth/authLayout";
-
+import { Routes, Route } from "react-router-dom";
 import ProtectedRoutes from "./ProtectedRoutes";
+import MainLayout from "layout/MainLayout";
 
 export const AppRouter = () => {
 	return (

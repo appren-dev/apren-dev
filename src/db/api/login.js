@@ -1,3 +1,5 @@
+import { app, getById } from "../firebase/firebaseConfig";
+//import { getIP } from "./getIP";
 import {
 	getAuth,
 	signInWithEmailAndPassword,
@@ -8,17 +10,57 @@ import {
 	reauthenticateWithCredential,
 	EmailAuthProvider,
 } from "firebase/auth";
-import { app } from "../firebase/firebaseConfig";
 export const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
 
+const authorizeUserLogin = async (uid) => {
+	try {
+		const userDocument = await getById({
+			name: "registered_users",
+			id: uid,
+		});
+		return userDocument;
+	} catch (error) {
+		return error;
+	}
+};
+
 const CredentialsProvider = async ({ email, password }) => {
-	return await signInWithEmailAndPassword(auth, email, password);
+	try {
+		//const ip = await getIP();
+		const { user } = await signInWithEmailAndPassword(auth, email, password);
+		if (user) {
+			try {
+				const userMatched = await authorizeUserLogin(user.uid);
+				delete userMatched.password;
+				return userMatched;
+			} catch (error) {
+				return {
+					error: 404,
+					message: "auth(/not-authorized).",
+				};
+			}
+		}
+	} catch (error) {
+		return error;
+	}
 };
 
 const GoogleProvider = async () => {
 	try {
-		return await signInWithPopup(auth, googleProvider);
+		const { user } = await signInWithPopup(auth, googleProvider);
+		if (user) {
+			try {
+				const userMatched = await authorizeUserLogin(user.uid);
+				delete userMatched.password;
+				return userMatched;
+			} catch (error) {
+				return {
+					error: 404,
+					message: "auth(/not-authorized).",
+				};
+			}
+		}
 	} catch (err) {
 		return err;
 	}

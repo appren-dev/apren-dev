@@ -17,7 +17,7 @@ export const PasswordInput = (props) => {
 
   return (
     <FormControl fullWidth variant="outlined">
-      <InputLabel size={"small"} htmlFor="outlined-adornment-password">{props.label}</InputLabel>
+      <InputLabel error={props?.error} size={"small"} htmlFor="outlined-adornment-password">{props.label}</InputLabel>
       <OutlinedInput
         name="password"
         {...props}
@@ -31,13 +31,13 @@ export const PasswordInput = (props) => {
               onMouseDown={handleMouseDownPassword}
               edge="end"
             >
-              {showPassword ? <VisibilityOff /> : <Visibility />}
+              {showPassword ? <VisibilityOff color={props?.error ? "error" : "primary"} /> : <Visibility color={props?.error ? "error" : "primary"} />}
             </IconButton>
           </InputAdornment>
         }
         label={props.label}
       />
-      <FormHelperText sx={{color:"#f44336"}}>{props.helpertext}</FormHelperText>
+      <FormHelperText sx={{ color: "#f44336" }}>{props.helpertext}</FormHelperText>
     </FormControl>
   );
 };

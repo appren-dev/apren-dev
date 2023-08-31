@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { CardMedia } from "@mui/material";
 import { lang } from "lang/config";
 import Box from "@mui/material/Box";

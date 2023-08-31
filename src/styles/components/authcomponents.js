@@ -26,11 +26,11 @@ const AuthBox = styled(Box)`
 `;
 
 const CustomButton = styled(Button)`
-	text-transform: capitalize;
+	text-transform: unset;
 	width: 100%;
 	background-color: #147479;
 	border: none;
-	padding: 14px;
+	padding: 12px;
 	color: #2f3349;
 	letter-spacing: 1px;
 	border-radius: 50px;
@@ -43,6 +43,7 @@ const CustomButton = styled(Button)`
 `;
 
 const GoogleButton = styled(Box)`
+	text-transform: unset;
 	border: none;
 	width: 100%;
 	padding: 7px;
@@ -50,7 +51,6 @@ const GoogleButton = styled(Box)`
 	color: #2f3349;
 	border-radius: 50px;
 	letter-spacing: 1px;
-	text-transform: capitalize;
 	background-color: white;
 	justify-content: center;
 	align-items: center;
@@ -67,7 +67,7 @@ const LoadingButton = styled(Box)`
 	width: 100%;
 	background-color: ${(props) => (props.color ? props.color : "#20bac2")};
 	border: none;
-	padding: 9.5px;
+	padding: 7px;
 	color: #2f3349;
 	letter-spacing: 1px;
 	border-radius: 50px;

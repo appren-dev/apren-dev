@@ -1,12 +1,12 @@
-import { Box, Button, Grid, TextField, Typography } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import { PasswordInput } from "components/password/Password";
 import { changePassword, reAuthenticate } from "db/api/login";
 import { useFormik } from "formik";
-import * as Yup from "yup";
 import { Toast } from "utilities/ToastsHelper";
 import { useNavigate } from "react-router";
-import { AuthContainer as ChangePasswordContainer, CustomButton, AuthBox as ChangePasswordBox  } from "styles/components/authcomponents";
+import { AuthContainer as ChangePasswordContainer, CustomButton, AuthBox as ChangePasswordBox } from "styles/components/authcomponents";
 import { lang } from "lang/config";
+import * as Yup from "yup";
 
 const ChangePassword = () => {
 	const navigate = useNavigate();
