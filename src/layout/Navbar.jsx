@@ -24,7 +24,6 @@ const drawerWidth = 240;
 const Navbar = (props) => {
   const { window } = props;
   const [session, setSession] = useState(JSON.parse(sessionStorage.getItem("data")));
-  console.log("Kz: 🏈 ~ Navbar ~ session:", session);
   const { pathname } = useLocation();
   const [navItems] = getNavItems(session);
   const [mobileOpen, setMobileOpen] = useState(false);

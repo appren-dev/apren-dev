@@ -19,7 +19,6 @@ export const PasswordInput = (props) => {
     <FormControl fullWidth variant="outlined">
       <InputLabel size={"small"} htmlFor="outlined-adornment-password">{props.label}</InputLabel>
       <OutlinedInput
-        id="outlined-adornment-password"
         name="password"
         {...props}
         size="small"

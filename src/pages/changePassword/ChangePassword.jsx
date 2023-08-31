@@ -5,6 +5,9 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Toast } from "utilities/ToastsHelper";
 import { useNavigate } from "react-router";
+import { ChangePasswordBox, ChangePasswordContainer } from "styles/components/changePassword";
+import { CustomButton } from "styles/components/authcomponents";
+import { lang } from "lang/config";
 
 const ChangePassword = () => {
 	const navigate = useNavigate();
@@ -20,100 +23,75 @@ const ChangePassword = () => {
 			let res = await reAuthenticate(data.current_password);
 			if (res.operationType === "reauthenticate") {
 				await changePassword(data.new_password);
-				Toast.success("Tu contraseña se cambio con exito");
+				Toast.success(lang.success_changePassword);
 				navigate("/");
 			} else {
-				Toast.error("Tu contraseña actual es incorrecta");
+				Toast.error(lang.incorrect_currentPassword);
 			}
 		},
 		validateOnChange: false,
 		validationSchema: Yup.object({
-			current_password: Yup.string().required("Campo requerido"),
+			current_password: Yup.string().required(lang.error_require),
 			new_password: Yup.string()
-				.required("Campo requerido")
+				.required(lang.error_require)
 				.matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])/, {
-					message: "La contraseña debe tener al menos 1 mayuscula, 1 minuscula y 1 numero ",
+					message: lang.error_regEx,
 				}),
 			confirm_password: Yup.string()
-				.required("Campo requerido")
-				.oneOf([Yup.ref("new_password")], "Las contraseñas no coinciden"),
+				.required(lang.error_require)
+				.oneOf([Yup.ref("new_password")], lang.error_not_match),
 		}),
 	});
 	return (
-		<Box
-			sx={{
-				width: "100%",
-				display: "flex",
-				justifyContent: "center",
-				alignItems: "center",
-				minHeight: "calc(100vh - 130px )",
-			}}
-		>
-			<Grid
-				container
-				spacing={1}
-				component="form"
-				onSubmit={handleSubmit}
-				sx={{
-					width: { xs: "90%", sm: "50%", md: "40%" },
-					backgroundColor: "background.paper",
-					padding: "10px 20px",
-					borderRadius: "20px",
-				}}
-			>
-				<Grid xs={12} marginBottom={2} item>
-					<Typography align="center" variant="h5" fontWeight={"bolder"}>
-						¿Quieres cambiar tu contraseña?
-					</Typography>
-				</Grid>
-				<Grid xs={12} marginBottom={2} item>
-					<PasswordInput
-						label="Contraseña actual"
-						name="current_password"
-						onChange={handleChange}
-						error={errors.current_password ? true : false}
-						helpertext={errors.current_password}
-					/>
-				</Grid>
-				<Grid xs={12} marginBottom={2} item>
-					<PasswordInput
-						label="Nueva contraseña"
-						name="new_password"
-						onChange={handleChange}
-						error={errors.new_password ? true : false}
-						helpertext={errors.new_password}
-					/>
-				</Grid>
-				<Grid xs={12} marginBottom={2} item>
-					<PasswordInput
-						label="Confirmar contraseña"
-						name="confirm_password"
-						onChange={handleChange}
-						error={errors.confirm_password ? true : false}
-						helpertext={errors.confirm_password}
-					/>
-				</Grid>
-				<Grid
-					xs={12}
-					marginBottom={2}
-					item
-					sx={{
-						display: "flex",
-						justifyContent: "flex-end",
-					}}
-				>
-					<Button
-						variant="contained"
-						type="submit"
+		<ChangePasswordContainer>
+			<ChangePasswordBox>
+				<Grid container spacing={1} component="form" onSubmit={handleSubmit}>
+					<Grid xs={12} marginBottom={2} item>
+						<Typography align="center" variant="h5" fontWeight={"bolder"}>
+							{lang.form_title_cp}
+						</Typography>
+					</Grid>
+					<Grid xs={12} marginBottom={2} item>
+						<PasswordInput
+							label={lang.label_current}
+							name="current_password"
+							onChange={handleChange}
+							error={errors.current_password ? true : false}
+							helpertext={errors.current_password}
+						/>
+					</Grid>
+					<Grid xs={12} marginBottom={2} item>
+						<PasswordInput
+							label={lang.label_new}
+							name="new_password"
+							onChange={handleChange}
+							error={errors.new_password ? true : false}
+							helpertext={errors.new_password}
+						/>
+					</Grid>
+					<Grid xs={12} marginBottom={2} item>
+						<PasswordInput
+							label={lang.label_confirm}
+							name="confirm_password"
+							onChange={handleChange}
+							error={errors.confirm_password ? true : false}
+							helpertext={errors.confirm_password}
+						/>
+					</Grid>
+					<Grid
+						xs={12}
+						marginBottom={2}
+						item
 						sx={{
-							padding: "5px 10px",
+							display: "flex",
+							justifyContent: "flex-end",
 						}}
 					>
-						Cambiar
-					</Button>
+						<CustomButton type="submit">{lang.btn_cp}</CustomButton>
+					</Grid>
 				</Grid>
-			</Grid>
-		</Box>
+			</ChangePasswordBox>
+		</ChangePasswordContainer>
 	);
 };
 
