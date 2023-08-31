@@ -1,11 +1,3 @@
-export const container = {
-  main: {
-    display: {
-      sx: "block",
-      lg: "flex",
-    },
-  },
-  dashboard: { display: { sm: "block", lg: "none" } },
-  altMenu: { display: { sm: "none", lg: "block" } },
-  children: { padding: { xs: "15px", sm: "25px" } },
+export const outletContainer = {
+	padding: { xs: "52px 20px 10px 20px", sm: "52px 25px 10px 30px" },
 };
