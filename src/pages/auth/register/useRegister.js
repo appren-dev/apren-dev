@@ -7,6 +7,8 @@ import { useState } from "react";
 import { sendEmailVerification } from "firebase/auth";
 /* import { doc, setDoc } from "firebase/firestore"; */
 import { useNavigate } from "react-router";
+const defaultImage =
+	"https://as2.ftcdn.net/v2/jpg/05/49/98/39/1000_F_549983970_bRCkYfk0P6PP5fKbMhZMIb07mCJ6esXL.jpg";
 
 export const useRegister = () => {
 	const [credentialsRegister, setCredentialsRegister] = useState({
@@ -55,7 +57,7 @@ export const useRegister = () => {
 				const data = {
 					name: response.user.displayName,
 					email: response.user.email,
-					image: response.user.photoURL,
+					image: response.user.photoURL || defaultImage,
 					status: "authenticated",
 					emailVerified: true,
 					metadata: {
@@ -66,7 +68,7 @@ export const useRegister = () => {
 					id: response.user.uid,
 				};
 				await sendEmailVerification(response.user);
-				localStorage.setItem("user", JSON.stringify(data));
+				localStorage.setItem("user_reg", JSON.stringify(data));
 				return navigate("/authentication/confirmation");
 			}
 		} catch (error) {

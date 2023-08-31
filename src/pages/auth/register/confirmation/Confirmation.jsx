@@ -1,42 +1,43 @@
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { registrationDB } from "db/api/registration";
 import { lang } from "lang/config";
-import { useEffect } from "react";
-import { useLocation, useNavigate } from "react-router";
-import { errorHandler } from "utilities/errorHandler";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 
 const Confirmation = () => {
 	let navigate = useNavigate();
-	const location = useLocation();
-	const queryParams = new URLSearchParams(location.search);
-	const paramValue = queryParams.get("oobCode");
-	let user = JSON.parse(localStorage.getItem("user"));
+	const [status, setStatus] = useState(lang.confirmation_message_send);
 
 	useEffect(() => {
-		if (paramValue) {
+		const location = window.location.search;
+		if (location.includes("oobCode")) {
+			const user = JSON.parse(localStorage.getItem("user_reg"));
 			if (user) {
 				const registrationUser = async () => {
 					try {
+						setStatus(lang.confirmation_message_confirm);
 						await registrationDB(user);
-						localStorage.removeItem("user");
-						navigate("/authentication/login");
+						localStorage.removeItem("user_reg");
+						setTimeout(() => {
+							return navigate("/authentication/login");
+						}, 2500);
 					} catch (err) {
-						return errorHandler;
+						setStatus(lang.confirmation_failed);
 					}
 				};
 				registrationUser();
+			} else {
+				setStatus(lang.confirmation_expired);
 			}
+		} else {
+			setStatus(lang.confirmation_message_send);
 		}
-	}, [paramValue]);
+	}, []);
 
 	return (
-		<div>
-			{paramValue ? (
-				<Typography>{lang.confirmation_message_confirm}</Typography>
-			) : (
-				<Typography>{lang.confirmation_message_send}</Typography>
-			)}
-		</div>
+		<Box sx={{ p: 2, pb: 4 }}>
+			<Typography>{status}</Typography>
+		</Box>
 	);
 };
 

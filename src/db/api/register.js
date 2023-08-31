@@ -1,4 +1,4 @@
-import { getAuth, createUserWithEmailAndPassword, signOut, sendEmailVerification } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signOut } from "firebase/auth";
 import { app } from "../firebase/firebaseConfig";
 const auth = getAuth(app);
 
@@ -28,4 +28,4 @@ const onSingOut = async () => {
 	}
 };
 
-export { CredentialsProviderRegister/* , sendConfirmationEmail */, onSingOut };
+export { CredentialsProviderRegister /* , sendConfirmationEmail */, onSingOut };
