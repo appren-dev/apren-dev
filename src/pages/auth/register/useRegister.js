@@ -4,11 +4,9 @@ import { errorHandler } from "utilities/errorHandler";
 import { Toast } from "utilities/ToastsHelper";
 import /* useNavigate */ "react-router";
 import { useState } from "react";
-import { getAuth, sendEmailVerification } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
-import { app, db } from "db/firebase/firebaseConfig";
+import { sendEmailVerification } from "firebase/auth";
+/* import { doc, setDoc } from "firebase/firestore"; */
 import { useNavigate } from "react-router";
-const auth = getAuth(app);
 
 export const useRegister = () => {
 	const [credentialsRegister, setCredentialsRegister] = useState({
@@ -54,26 +52,23 @@ export const useRegister = () => {
 			console.log("response del register: ", response);
 
 			if (response?.user) {
-				const verification = await sendEmailVerification(response.user);
-				navigate("/confirmation")
-				console.log(" respuesta del verification del sendEmailVerification ", verification);
-
 				const data = {
-					name: response.user.displayName || "No name to show",
+					name: response.user.displayName,
 					email: response.user.email,
-					image:
-						response.user.photoURL ||
-						"https://s3.amazonaws.com/pix.iemoji.com/images/emoji/apple/ios-12/256/crazy-face.png",
+					image: response.user.photoURL,
 					status: "authenticated",
-					emailVerified: response.user.emailVerified,
+					emailVerified: true,
+					metadata: {
+						...response.user.metadata,
+					},
+					password: "",
+					userIP: "",
+					id: response.user.uid,
 				};
+				await sendEmailVerification(response.user);
+				localStorage.setItem("user", JSON.stringify(data));
+				return navigate("/authentication/confirmation");
 			}
-
-			/* setDoc(doc(db, "users", response.user.uid), {
-               ...data,
-				emailVerified: false,
-              ); */
-
 		} catch (error) {
 			console.log(error);
 			const errorMessage = errorHandler(error);

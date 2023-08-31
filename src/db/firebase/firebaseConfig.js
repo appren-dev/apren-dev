@@ -33,3 +33,5 @@ export const getById = async ({ name, id }) => {
 		return error;
 	}
 };
+
+export const getCollection = (endpoint) => collection(db, endpoint);

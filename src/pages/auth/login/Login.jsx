@@ -5,6 +5,7 @@ import { PasswordInput } from "components/password/Password";
 import { FcGoogle } from "react-icons/fc";
 import { useLogin } from "./useLogin";
 import { lang } from "lang/config";
+import { Link } from "react-router-dom";
 
 const Login = () => {
 	const {
@@ -110,19 +111,21 @@ const Login = () => {
 				)}
 			</Grid>
 			<Grid xs={12} marginBottom={2} item>
-				<Typography
-					variant="subtitle"
-					sx={{
-						color: "primary.main",
-						cursor: "pointer",
-						"&:hover": {
-							color: "primary.secondary",
-							textDecoration: "underline",
-						},
-					}}
-				>
-					{lang.login_not_an_account_yet}
-				</Typography>
+				<Link to="/authentication/registration" style={{ textDecoration: "none" }}>
+					<Typography
+						variant="subtitle"
+						sx={{
+							color: "primary.main",
+							cursor: "pointer",
+							"&:hover": {
+								color: "primary.secondary",
+								textDecoration: "underline",
+							},
+						}}
+					>
+						{lang.login_not_an_account_yet}
+					</Typography>
+				</Link>
 			</Grid>
 		</Grid>
 	);

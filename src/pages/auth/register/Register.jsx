@@ -4,11 +4,16 @@ import { CustomButton /* GoogleButton */ } from "styles/components/authcomponent
 /* import CustomLoadingButton from "components/loadingButton"; */
 import { PasswordInput } from "components/password/Password";
 import { useRegister } from "./useRegister";
+import { lang } from "lang/config";
 /* import { FcGoogle } from "react-icons/fc"; */
 
 const Register = () => {
-	const { credentialsRegister, /*loading */ handleChange, handleSubmit, invalidFields /*handleGoogleSigning */ } =
-		useRegister();
+	const {
+		credentialsRegister,
+		/*loading */ handleChange,
+		handleSubmit,
+		invalidFields /*handleGoogleSigning */,
+	} = useRegister();
 
 	return (
 		<Grid container spacing={1} component="form" onSubmit={(e) => handleSubmit(e)}>
@@ -64,7 +69,7 @@ const Register = () => {
 				) : (
 					<CustomButton type="submit">Iniciar sesión</CustomButton>
 				)} */}
-				<CustomButton type="submit">Registrarme</CustomButton>
+				<CustomButton type="submit">{lang.registration_btn_title}</CustomButton>
 			</Grid>
 			<Grid xs={12} marginBottom={2} item>
 				<Box sx={{ width: "100%", border: "0.05px solid #e2e2e2" }} />
@@ -91,7 +96,7 @@ const Register = () => {
 						},
 					}}
 				>
-					¿Ya tienes cuenta?
+					{lang.registration_account_yet}
 				</Typography>
 			</Grid>
 		</Grid>

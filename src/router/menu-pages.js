@@ -1,5 +1,6 @@
 import Login from "pages/auth/login/Login";
 import Register from "pages/auth/register/Register";
+import Confirmation from "pages/auth/register/confirmation/Confirmation";
 import ChangePassword from "pages/changePassword/ChangePassword";
 import Home from "pages/home/Home";
 
@@ -14,6 +15,12 @@ const authMenu = [
 		route: "/authentication/registration",
 		Element: Register,
 	},
+	{
+		id:3,
+		route:"/authentication/confirmation",
+		Element: Confirmation,
+	
+	}
 ];
 
 const signedMenu = [
