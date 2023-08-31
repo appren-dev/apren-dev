@@ -1,7 +1,7 @@
 {
-  "session_status_success": "authenticated",
-  "session_status_idle": "unauthenticated",
-  "user_not_found": "Este usuario no existe",
-  "wrong_password": "La contraseña no es correcta",
-  "not_authorized": "Usuario sin autorización"
+	"session_status_success": "authenticated",
+	"session_status_idle": "unauthenticated",
+	"user_not_found": "Este usuario no existe",
+	"wrong_password": "La contraseña no es correcta",
+	"not_authorized": "Usuario sin autorización"
 }

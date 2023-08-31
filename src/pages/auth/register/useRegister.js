@@ -1,13 +1,12 @@
 import { CredentialsProviderRegister } from "db/api/register";
 import /* FIELDEVALUATOR */ "utilities/fieldEvaluator";
 import { errorHandler } from "utilities/errorHandler";
-import { Toast } from "utilities/ToastsHelper";
-import /* useNavigate */ "react-router";
 import { useState } from "react";
 import { sendEmailVerification } from "firebase/auth";
 /* import { doc, setDoc } from "firebase/firestore"; */
-import { useNavigate } from "react-router";
 import * as Yup from "yup";
+import { Toast } from "utilities/ToastsHelper";
+import { useNavigate } from "react-router";
 
 const defaultImage =
 	"https://as2.ftcdn.net/v2/jpg/05/49/98/39/1000_F_549983970_bRCkYfk0P6PP5fKbMhZMIb07mCJ6esXL.jpg";
@@ -93,6 +92,8 @@ export const useRegister = () => {
 		} catch (error) {
 			console.log(error);
 			const errorMessage = errorHandler(error);
+			console.log(errorMessage);
+
 			setLoading({
 				credentialSigning: false,
 				googleSigning: {
@@ -103,8 +104,6 @@ export const useRegister = () => {
 			return Toast.error(errorMessage);
 		}
 	};
-
-	
 
 	return {
 		loading,
