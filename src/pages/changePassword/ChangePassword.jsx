@@ -5,8 +5,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Toast } from "utilities/ToastsHelper";
 import { useNavigate } from "react-router";
-import { ChangePasswordBox, ChangePasswordContainer } from "styles/components/changePassword";
-import { CustomButton } from "styles/components/authcomponents";
+import { AuthContainer as ChangePasswordContainer, CustomButton, AuthBox as ChangePasswordBox  } from "styles/components/authcomponents";
 import { lang } from "lang/config";
 
 const ChangePassword = () => {
@@ -43,10 +42,10 @@ const ChangePassword = () => {
 		}),
 	});
 	return (
-		<ChangePasswordContainer>
+		<ChangePasswordContainer height="calc(100vh - 140px)">
 			<ChangePasswordBox>
 				<Grid container spacing={1} component="form" onSubmit={handleSubmit}>
-					<Grid xs={12} marginBottom={2} item>
+					<Grid xs={12} marginBottom={4.5} item>
 						<Typography align="center" variant="h5" fontWeight={"bolder"}>
 							{lang.form_title_cp}
 						</Typography>

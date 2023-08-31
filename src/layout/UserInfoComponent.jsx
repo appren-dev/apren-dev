@@ -30,6 +30,8 @@ const UserInfoComponent = ({ userImage, updateSession }) => {
     try {
       await onSingOut();
       updateSession(null);
+      Toast.success("Cerraste sesión")
+      navigate("/")
       return sessionStorage.removeItem("data");
     } catch (error) {
       const errorMessage = errorHandler(error);
