@@ -1,4 +1,5 @@
 import { Grid, TextField, Typography } from "@mui/material";
+import { forgotPassword } from "db/api/login";
 import { useFormik } from "formik";
 import { lang } from "lang/config";
 import { CustomButton } from "styles/components/authcomponents";
@@ -10,7 +11,7 @@ const ForgotPassword = () => {
 			email:""
 		},
 		onSubmit: async (data)=>{
-			
+			await forgotPassword(data.email)
 		},
 		validateOnChange: false,
 		validationSchema: Yup.object({

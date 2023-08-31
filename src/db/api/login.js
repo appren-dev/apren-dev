@@ -9,6 +9,7 @@ import {
 	updatePassword,
 	reauthenticateWithCredential,
 	EmailAuthProvider,
+	sendPasswordResetEmail,
 } from "firebase/auth";
 export const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
@@ -91,4 +92,16 @@ const reAuthenticate = async (oldPassword) => {
 	}
 };
 
-export { CredentialsProvider, GoogleProvider, onSingOut, changePassword, reAuthenticate };
+const forgotPassword = async (email) => {
+	let res = await sendPasswordResetEmail(auth, email);
+	return res;
+};
+
+export {
+	CredentialsProvider,
+	GoogleProvider,
+	onSingOut,
+	changePassword,
+	reAuthenticate,
+	forgotPassword,
+};

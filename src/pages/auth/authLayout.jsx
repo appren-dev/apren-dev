@@ -6,7 +6,7 @@ import { Outlet } from "react-router";
 
 const AuthenticationLayout = () => {
 	return (
-		<AuthContainer component="div" height="100%">
+		<AuthContainer component="div" height="100vh">
 			<Box component="header" marginTop={4.5}>
 				<CardMedia
 					image={logo}
