@@ -3,7 +3,7 @@ import { Box, Button } from "@mui/material";
 
 const AuthContainer = styled(Box)`
 	width: 100%;
-	height: 100%;
+	height:${(props)=>props.height};
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
