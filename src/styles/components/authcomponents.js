@@ -29,7 +29,7 @@ const AuthBox = styled(Box)`
 
 const CustomButton = styled(Button)`
 	text-transform: unset;
-	width: 300px;
+	width: 100%;
 	height: 45px;
 	background-color: #20bac2;
 	border: none;
@@ -49,7 +49,7 @@ const CustomButton = styled(Button)`
 const GoogleButton = styled(Box)`
 	text-transform: unset;
 	border: none;
-	width: 300px;
+	width: 100%;
 	padding: 5px 10px;
 	height: 45px;
 	display: flex;
@@ -69,7 +69,7 @@ const GoogleButton = styled(Box)`
 
 const LoadingButton = styled(Box)`
 	text-transform: capitalize;
-	width: 300px;
+	width: 100%;
 	height: 45px;
 	background-color: ${(props) => (props.color ? props.color : "#20bac2")};
 	border: none;
