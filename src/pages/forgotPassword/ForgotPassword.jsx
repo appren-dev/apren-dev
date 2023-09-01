@@ -38,7 +38,7 @@ const ForgotPassword = () => {
 					helperText={errors.email}
 				/>
 			</Grid>
-			<Grid xs={12} marginBottom={2} item>
+			<Grid xs={12} marginBottom={2} item sx={{display:"flex", justifyContent: "center"}}>
 
 			<CustomButton type="submit">{lang.btn_forgot_pass}</CustomButton>
 			</Grid>
