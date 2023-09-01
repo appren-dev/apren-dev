@@ -1,13 +1,14 @@
+import { useState } from "react";
 import { Box, CardMedia, Divider, IconButton, ListItemIcon, Menu, MenuItem, Tooltip, Typography } from "@mui/material";
 import { RiSecurePaymentFill, RiLogoutCircleRLine } from "react-icons/ri";
-import { userMenu } from "config/loggedInUserMenu";
-import { BiSupport } from "react-icons/bi";
-import React, { useState } from "react";
-import { lang } from "lang/config";
-import { useNavigate } from "react-router-dom";
-import { onSingOut } from "db/api/login";
-import { Toast } from "utilities/ToastsHelper";
 import { errorHandler } from "utilities/errorHandler";
+import { userMenu } from "layout/loggedInUserMenu";
+import { useNavigate } from "react-router-dom";
+import { Toast } from "utilities/ToastsHelper";
+import { HiOutlineKey } from "react-icons/hi";
+import { BiSupport } from "react-icons/bi";
+import { onSingOut } from "db/api/login";
+import { lang } from "lang/config";
 
 const UserInfoComponent = ({ userImage, updateSession }) => {
   const [anchorElUser, setAnchorElUser] = useState(null);
@@ -30,6 +31,8 @@ const UserInfoComponent = ({ userImage, updateSession }) => {
     try {
       await onSingOut();
       updateSession(null);
+      Toast.success("Cerraste sesión")
+      navigate("/")
       return sessionStorage.removeItem("data");
     } catch (error) {
       const errorMessage = errorHandler(error);
@@ -74,7 +77,7 @@ const UserInfoComponent = ({ userImage, updateSession }) => {
             key={id}
             onClick={() => handleClickPickerMenu({ id, path })}
           >
-            <Typography color="primary" textAlign="center">{label}</Typography>
+            <Typography textAlign="center">{label}</Typography>
           </MenuItem>
         ))}
         <Divider />
@@ -89,6 +92,12 @@ const UserInfoComponent = ({ userImage, updateSession }) => {
             <BiSupport size={20} />
           </ListItemIcon>
           {lang.customer_service}
+        </MenuItem>
+        <MenuItem onClick={() => handleClickPickerMenu({ id: 5, path: "change-password" })}>
+          <ListItemIcon>
+            <HiOutlineKey size={20} />
+          </ListItemIcon>
+          {lang.change_password}
         </MenuItem>
         <MenuItem onClick={onLogOut}>
           <ListItemIcon>

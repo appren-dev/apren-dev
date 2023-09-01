@@ -5,7 +5,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import FormControl from "@mui/material/FormControl";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { OutlinedInput } from "@mui/material";
+import { FormHelperText, OutlinedInput } from "@mui/material";
 
 export const PasswordInput = (props) => {
   const [showPassword, setShowPassword] = React.useState(false);
@@ -17,9 +17,8 @@ export const PasswordInput = (props) => {
 
   return (
     <FormControl fullWidth variant="outlined">
-      <InputLabel size={"small"} htmlFor="outlined-adornment-password">Contraseña</InputLabel>
+      <InputLabel error={props?.error} size={"small"} htmlFor="outlined-adornment-password">{props.label}</InputLabel>
       <OutlinedInput
-        id="outlined-adornment-password"
         name="password"
         {...props}
         size="small"
@@ -32,12 +31,13 @@ export const PasswordInput = (props) => {
               onMouseDown={handleMouseDownPassword}
               edge="end"
             >
-              {showPassword ? <VisibilityOff /> : <Visibility />}
+              {showPassword ? <VisibilityOff color={props?.error ? "error" : "primary"} /> : <Visibility color={props?.error ? "error" : "primary"} />}
             </IconButton>
           </InputAdornment>
         }
-        label="Password"
+        label={props.label}
       />
+      <FormHelperText sx={{ color: "#f44336" }}>{props.helpertext}</FormHelperText>
     </FormControl>
   );
 };

@@ -13,7 +13,7 @@ export const uploadPdf = async (file, name) => {
 	return result;
 };
 
-export const getCollection = (endpoint) => collection(db, endpoint);
+const getCollection = (endpoint) => collection(db, endpoint);
 
 const clientsCollection = getCollection("clients");
 export const addClient = (documentTitle, newCollection) => setDoc(doc(clientsCollection, documentTitle), newCollection);
@@ -60,11 +60,11 @@ export const addNotification = (data) => {
 	}
 };
 
-export const getById = async ({ name, id }) => {
+export const oldGetById = async ({ name, id }) => {
 	const ref = doc(collection(db, name), id);
 	try {
 		const result = await getDoc(ref);
-		const values = await result.data();
+		const values = result.data();
 		return values;
 	} catch (error) {
 		return error;

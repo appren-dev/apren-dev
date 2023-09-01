@@ -1,6 +1,6 @@
-import React from "react";
-export const Home = React.lazy(() => import("pages/home/Home.jsx"));
-const Login = React.lazy(() => import("pages/auth/login/Login.jsx"));
+import Login from "pages/auth/login/Login";
+import ChangePassword from "pages/changePassword/ChangePassword";
+import Home from "pages/home/Home";
 
 const authMenu = [
 	{
@@ -12,9 +12,9 @@ const authMenu = [
 
 const signedMenu = [
 	{
-		id: 1,
-		route: "/",
-		Element: Home,
+		id: 2,
+		route: "/users/:id/current-user/change-password",
+		Element: ChangePassword,
 	},
 ];
 
