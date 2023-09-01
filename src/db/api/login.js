@@ -99,24 +99,28 @@ const onSendEmailLink = async (email) => {
 	try {
 		localStorage.setItem("_e", email);
 		await sendSignInLinkToEmail(auth, email, actionCodeSettings);
-		return { status: 200 };
+		return { response: "success" };
 	} catch (error) {
+		console.log("Kz: 🏈 ~ onSendEmailLink ~ error:", error);
 		return error;
 	}
 };
 
 const onSingInWithEmailLink = async (newPassword) => {
 	try {
-		const email = JSON.parse(localStorage.getItem("_e"));
-		let res = await signInWithEmailLink(auth, email, window.location.href);
-		if (res) {
-			localStorage.removeItem("_e");
-			try {
-				return await changePassword(newPassword);
-			} catch (error) {
-				return error;
-			}
-		}
+		console.log("ENTRÓ");
+		const email = localStorage.getItem("_e");
+		console.log("Kz: 🏈 ~ onSingInWithEmailLink ~ email:", email);
+		await signInWithEmailLink(auth, email, window.location.href);
+		return await changePassword(newPassword);
+		// if (res) {
+		// 	localStorage.removeItem("_e");
+		// 	try {
+		// 		return await changePassword(newPassword);
+		// 	} catch (error) {
+		// 		return error;
+		// 	}
+		// }
 	} catch (error) {
 		return error;
 	}

@@ -18,6 +18,7 @@ const ForgotPassword = () => {
 		onSubmit: async (data) => {
 			if (location) {
 				try {
+					console.log("Entró");
 					await onSingInWithEmailLink(data.password);
 				} catch (error) {
 					console.log("Kz: 🏈 ~ onSubmit: ~ error:", error);
@@ -26,7 +27,12 @@ const ForgotPassword = () => {
 				}
 			} else {
 				try {
-					await onSendEmailLink(data.email);
+					const res = await onSendEmailLink(data.email);
+					if (res.status === "success") {
+						console.log("todo bien");
+					} else {
+						console.log(res);
+					}
 				} catch (error) {
 					console.log("Kz: 🏈 ~ onSubmit: ~ error:", error);
 					const errorMessage = errorHandler(error);
