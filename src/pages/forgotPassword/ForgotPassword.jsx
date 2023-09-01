@@ -1,24 +1,37 @@
 import { Grid, TextField, Typography } from "@mui/material";
-import { changePassword, forgotPassword } from "db/api/login";
+import { onSendEmailLink, onSingInWithEmailLink } from "db/api/login";
 import { useFormik } from "formik";
 import { lang } from "lang/config";
-import { useEffect } from "react";
+//import { useEffect } from "react";
 import { CustomButton } from "styles/components/authcomponents";
-import * as Yup from "yup";
+import { Toast } from "utilities/ToastsHelper";
+import { errorHandler } from "utilities/errorHandler";
+//import * as Yup from "yup";
 const ForgotPassword = () => {
 	const location = window.location.search.includes("signIn&oobCode");
-	console.log(location);
 
 	const { handleSubmit, handleChange, errors } = useFormik({
 		initialValues: {
 			email: "",
-			password:""
+			password: ""
 		},
 		onSubmit: async (data) => {
-			if(location){
-				await changePassword(data.password)
-			}else{
-				await forgotPassword(data.email);
+			if (location) {
+				try {
+					await onSingInWithEmailLink(data.password);
+				} catch (error) {
+					console.log("Kz: 🏈 ~ onSubmit: ~ error:", error);
+					const errorMessage = errorHandler(error);
+					return Toast.error(errorMessage);
+				}
+			} else {
+				try {
+					await onSendEmailLink(data.email);
+				} catch (error) {
+					console.log("Kz: 🏈 ~ onSubmit: ~ error:", error);
+					const errorMessage = errorHandler(error);
+					return Toast.error(errorMessage);
+				}
 			}
 		},
 		validateOnChange: false,
@@ -38,10 +51,10 @@ const ForgotPassword = () => {
 						name="password"
 						sx={{ width: "100%" }}
 						onChange={handleChange}
-						// value={credentials.email}
-						// error={errors.email ? true : false}
-						// label={lang.forgot_input_label}
-						// helperText={errors.email}
+					// value={credentials.email}
+					// error={errors.email ? true : false}
+					// label={lang.forgot_input_label}
+					// helperText={errors.email}
 					/>
 				</Grid>
 			) : (
@@ -59,7 +72,13 @@ const ForgotPassword = () => {
 				</Grid>
 			)}
 			<Grid xs={12} marginBottom={2} item sx={{ display: "flex", justifyContent: "center" }}>
-				<CustomButton type="submit">{lang.btn_forgot_pass}</CustomButton>
+				{
+					location ? (
+						<CustomButton type="submit">Guardar Contraseña</CustomButton>
+					) : (
+						<CustomButton type="submit">{lang.btn_forgot_pass}</CustomButton>
+					)
+				}
 			</Grid>
 		</Grid>
 	);

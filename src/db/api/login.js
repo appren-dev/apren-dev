@@ -9,7 +9,7 @@ import {
 	updatePassword,
 	reauthenticateWithCredential,
 	EmailAuthProvider,
-	sendPasswordResetEmail,
+	//sendPasswordResetEmail,
 	sendSignInLinkToEmail,
 	signInWithEmailLink,
 } from "firebase/auth";
@@ -78,7 +78,7 @@ const onSingOut = async () => {
 };
 
 const changePassword = async (newPassword) => {
-	console.log(auth.currentUser);
+	console.log("Kz: 🏈 ~ changePassword ~ auth.currentUser:", auth.currentUser);
 	try {
 		return await updatePassword(auth.currentUser, newPassword);
 	} catch (error) {
@@ -95,12 +95,28 @@ const reAuthenticate = async (oldPassword) => {
 	}
 };
 
-const forgotPassword = async (email) => {
+const onSendEmailLink = async (email) => {
 	try {
+		localStorage.setItem("_e", email);
 		await sendSignInLinkToEmail(auth, email, actionCodeSettings);
-		// let res = await signInWithEmailLink(auth, email, window.location.href);
-		// return res;
-		return "success"
+		return { status: 200 };
+	} catch (error) {
+		return error;
+	}
+};
+
+const onSingInWithEmailLink = async (newPassword) => {
+	try {
+		const email = JSON.parse(localStorage.getItem("_e"));
+		let res = await signInWithEmailLink(auth, email, window.location.href);
+		if (res) {
+			localStorage.removeItem("_e");
+			try {
+				return await changePassword(newPassword);
+			} catch (error) {
+				return error;
+			}
+		}
 	} catch (error) {
 		return error;
 	}
@@ -115,10 +131,11 @@ const actionCodeSettings = {
 };
 
 export {
-	CredentialsProvider,
-	GoogleProvider,
 	onSingOut,
-	changePassword,
 	reAuthenticate,
-	forgotPassword,
+	changePassword,
+	GoogleProvider,
+	onSendEmailLink,
+	CredentialsProvider,
+	onSingInWithEmailLink,
 };
