@@ -1,6 +1,5 @@
 import { AuthContainer, AuthBox } from "styles/components/authcomponents";
 import { Box, Typography } from "@mui/material";
-import { CardMedia } from "@mui/material";
 import logo from "assets/apren-dev_logo_no_bg.png";
 import { Outlet } from "react-router";
 
