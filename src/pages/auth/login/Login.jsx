@@ -97,7 +97,7 @@ const Login = () => {
 					</Link>
 				</Box>
 			</Grid>
-			<Grid xs={12} marginBottom={2} item>
+			<Grid xs={12} marginBottom={2} item sx={{display:"flex", justifyContent: "center"}}>
 				{loading.credentialSigning ? (
 					<CustomLoadingButton loadingMessage="Iniciando Sesión" />
 				) : (
@@ -107,12 +107,12 @@ const Login = () => {
 			<Grid xs={12} marginBottom={2} item>
 				<Box sx={{ width: "100%", border: "0.05px solid #e2e2e2" }} />
 			</Grid>
-			<Grid xs={12} marginBottom={2} item>
+			<Grid xs={12} marginBottom={2} item sx={{display:"flex", justifyContent: "center"}}>
 				{loading.googleSigning.status ? (
 					<CustomLoadingButton loadingMessage={loading.googleSigning.message} />
 				) : (
 					<GoogleButton type="button" onClick={handleGoogleSigning}>
-						<FcGoogle size={47} />
+						<FcGoogle size={40} />
 						{lang.login_init_session} Google
 					</GoogleButton>
 				)}

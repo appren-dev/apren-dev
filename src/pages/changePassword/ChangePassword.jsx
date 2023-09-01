@@ -83,7 +83,7 @@ const ChangePassword = () => {
 						item
 						sx={{
 							display: "flex",
-							justifyContent: "flex-end",
+							justifyContent: "center",
 						}}
 					>
 						<CustomButton type="submit">{lang.btn_cp}</CustomButton>
