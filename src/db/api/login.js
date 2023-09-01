@@ -10,6 +10,8 @@ import {
 	reauthenticateWithCredential,
 	EmailAuthProvider,
 	sendPasswordResetEmail,
+	sendSignInLinkToEmail,
+	signInWithEmailLink,
 } from "firebase/auth";
 export const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
@@ -76,6 +78,7 @@ const onSingOut = async () => {
 };
 
 const changePassword = async (newPassword) => {
+	console.log(auth.currentUser);
 	try {
 		return await updatePassword(auth.currentUser, newPassword);
 	} catch (error) {
@@ -93,8 +96,22 @@ const reAuthenticate = async (oldPassword) => {
 };
 
 const forgotPassword = async (email) => {
-	let res = await sendPasswordResetEmail(auth, email);
-	return res;
+	try {
+		await sendSignInLinkToEmail(auth, email, actionCodeSettings);
+		// let res = await signInWithEmailLink(auth, email, window.location.href);
+		// return res;
+		return "success"
+	} catch (error) {
+		return error;
+	}
+};
+
+const actionCodeSettings = {
+	// URL you want to redirect back to. The domain (www.example.com) for this
+	// URL must be in the authorized domains list in the Firebase Console.
+	url: "http://localhost:3000/authentication/forgot-password",
+	// This must be true.
+	handleCodeInApp: true,
 };
 
 export {
