@@ -32,12 +32,12 @@ const AuthenticationLayout = () => {
 			<Box sx={{ display: { xs: "block", md: "none" } }}>
 				<AuthContainer component="div" height="100vh">
 					<Box component="header" marginTop={4.5}>
-						<CardMedia
-							image={logo}
-							title="apren-dev"
-							sx={{
-								height: "100px",
-								width: "100px",
+						<img
+							src={logo}
+							alt="apren-dev"
+							style={{
+								height: "150px",
+								width: "150px",
 							}}
 						/>
 					</Box>
