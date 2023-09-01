@@ -4,8 +4,6 @@ import { useFormik } from "formik";
 import { lang } from "lang/config";
 //import { useEffect } from "react";
 import { CustomButton } from "styles/components/authcomponents";
-import { Toast } from "utilities/ToastsHelper";
-import { errorHandler } from "utilities/errorHandler";
 //import * as Yup from "yup";
 const ForgotPassword = () => {
 	const location = window.location.search.includes("signIn&oobCode");
@@ -17,27 +15,10 @@ const ForgotPassword = () => {
 		},
 		onSubmit: async (data) => {
 			if (location) {
-				try {
-					console.log("Entró");
-					await onSingInWithEmailLink(data.password);
-				} catch (error) {
-					console.log("Kz: 🏈 ~ onSubmit: ~ error:", error);
-					const errorMessage = errorHandler(error);
-					return Toast.error(errorMessage);
-				}
+				console.log("Entró");
+				await onSingInWithEmailLink(data.password);
 			} else {
-				try {
-					const res = await onSendEmailLink(data.email);
-					if (res.status === "success") {
-						console.log("todo bien");
-					} else {
-						console.log(res);
-					}
-				} catch (error) {
-					console.log("Kz: 🏈 ~ onSubmit: ~ error:", error);
-					const errorMessage = errorHandler(error);
-					return Toast.error(errorMessage);
-				}
+				await onSendEmailLink(data.email);
 			}
 		},
 		validateOnChange: false,

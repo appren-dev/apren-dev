@@ -1,3 +1,4 @@
+import { Toast } from "utilities/ToastsHelper";
 import { app, getById } from "../firebase/firebaseConfig";
 //import { getIP } from "./getIP";
 import {
@@ -13,6 +14,7 @@ import {
 	sendSignInLinkToEmail,
 	signInWithEmailLink,
 } from "firebase/auth";
+import { errorHandler } from "utilities/errorHandler";
 export const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
 
@@ -101,8 +103,8 @@ const onSendEmailLink = async (email) => {
 		await sendSignInLinkToEmail(auth, email, actionCodeSettings);
 		return { response: "success" };
 	} catch (error) {
-		console.log("Kz: 🏈 ~ onSendEmailLink ~ error:", error);
-		return error;
+		const errorMessage = errorHandler(error);
+		Toast.error(errorMessage);
 	}
 };
 
