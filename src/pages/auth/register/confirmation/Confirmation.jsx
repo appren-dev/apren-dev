@@ -8,7 +8,7 @@ const Confirmation = () => {
 	let navigate = useNavigate();
 
 	const [status, setStatus] = useState(lang.confirmation_message_send);
-	/* const [userFromLogin , setUserFromLogin] = useState( JSON.parse(localStorage.getItem("user_reg")) || ""  ) */
+	/* const [userFromRegister , setUserFromRegister] = useState( JSON.parse(localStorage.getItem("user_reg")) || ""  ) */
 
 	useEffect(() => {
 		const location = window.location.search;
@@ -21,7 +21,7 @@ const Confirmation = () => {
 						await registrationDB(user);
 						localStorage.removeItem("user_reg");
 						setTimeout(() => {
-							return navigate("/authentication/login" /* , userFromLogin */);
+							return navigate("/authentication/login" /* , userFromRegister */);
 						}, 2500);
 					} catch (err) {
 						setStatus(lang.confirmation_failed);

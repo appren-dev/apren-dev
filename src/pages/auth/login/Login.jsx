@@ -17,6 +17,13 @@ const Login = () => {
 		setCredentials,
 		handleGoogleSigning,
 	} = useLogin();
+
+	/* const location = useLocation();
+	const userFromRegister = location.userFromRegister; 
+	Completar los datos que vienen del register en el form del login
+	consultar con los chicos
+	*/
+
 	return (
 		<Grid container spacing={1} component="form" onSubmit={(e) => handleSubmit(e)}>
 			<Grid xs={12} marginBottom={2} item>
