@@ -104,73 +104,11 @@ export const useRegister = () => {
 		}
 	};
 
-	/* 	const onFalseState = () => {
-		setLoading({
-			credentialSigning: false,
-			googleSigning: {
-				status: false,
-				message: "",
-			},
-		});
-	}; */
-	/* const handleGoogleSigningRegistration = async (fromPath) => {
-		setLoading({
-			credentialSigning: false,
-			googleSigning: {
-				status: true,
-				message: lang.login_google_session_init,
-			},
-		});
-		try {
-			const response = await GoogleProviderRegister();
-			onFalseState();
-			console.log("response del google: ", response);
-			if (response?.error || response?.message) {
-				onFalseState();
-				const errorMessage = errorHandler(response);
-				return Toast.error(errorMessage);
-			} else {
-				 	const data = {
-					name: response.name,
-					email: response.email,
-					image: response.image,
-					status: lang.session_status_success,
-				}; 
-				const data = {
-					name: response.name,
-					email: response.email,
-					image: response.image,
-					status: "authenticated",
-					emailVerified: true,
-					metadata: {
-						...response.metadata,
-					},
-					password: "",
-					userIP: "",
-					id: response.id,
-				};
-				console.log(data);
-				sessionStorage.setItem("data", JSON.stringify(data));
-				onFalseState();
-				console.log(fromPath);
-				if (fromPath === "/authentication/registration") {
-					//await registrationDB(data);
-				}
-
-				return navigate("/", { state: data });
-			}
-		} catch (error) {
-			const errorMessage = errorHandler(error);
-			onFalseState();
-			return Toast.error(errorMessage);
-		}
-	}; */
 
 	return {
 		loading,
 		initialValues,
 		getValidationSchema,
-		/* handleChange ,*/
 		handleSubmitRegistration,
 	};
 };
