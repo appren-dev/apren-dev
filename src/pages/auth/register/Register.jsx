@@ -1,12 +1,12 @@
 import { Box, FormHelperText, Grid, TextField, Typography } from "@mui/material";
-import { CustomButton /* GoogleButton */ } from "styles/components/authcomponents";
-/* import CustomLoadingButton from "components/loadingButton"; */
+import { CustomButton, GoogleButton } from "styles/components/authcomponents";
 import { PasswordInput } from "components/password/Password";
 import { useRegister } from "./useRegister";
 import { lang } from "lang/config";
 import { useFormik } from "formik";
-
-/* import { FcGoogle } from "react-icons/fc"; */
+import { FcGoogle } from "react-icons/fc";
+import { useLogin } from "../login/useLogin";
+import CustomLoadingButton from "components/loadingButton";
 
 const Register = () => {
 	const {
@@ -14,21 +14,21 @@ const Register = () => {
 		handleSubmitRegistration,
 		initialValues,
 		getValidationSchema,
-		/* handleGoogleSigning, */
 	} = useRegister();
 
-	const { handleSubmit, handleChange, handleBlur, setFieldTouched, values, errors, touched } =
-		useFormik({
-			validateOnBlur: true,
+	const { handleGoogleSigning, loading } = useLogin();
 
-			validateOnChange: false,
+	const { handleSubmit, handleChange, handleBlur, values, errors, touched } = useFormik({
+		validateOnBlur: true,
 
-			initialValues,
+		validateOnChange: false,
 
-			validationSchema: getValidationSchema(),
+		initialValues,
 
-			onSubmit: (data) => handleSubmitRegistration(data),
-		});
+		validationSchema: getValidationSchema(),
+
+		onSubmit: (data) => handleSubmitRegistration(data),
+	});
 
 	/* 	const handleFieldChange = (event) => {
 		handleChange(event);
@@ -106,14 +106,17 @@ const Register = () => {
 				<Box sx={{ width: "100%", border: "0.05px solid #e2e2e2" }} />
 			</Grid>
 			<Grid xs={12} marginBottom={2} item>
-				{/* 	{loading.googleSigning.status ? (
+				{loading.googleSigning.status ? (
 					<CustomLoadingButton loadingMessage={loading.googleSigning.message} />
 				) : (
-					<GoogleButton type="button" onClick={handleGoogleSigning}>
+					<GoogleButton
+						type="button"
+						onClick={() => handleGoogleSigning("/authentication/registration")}
+					>
 						<FcGoogle size={50} />
 						Iniciar sesión con Google
 					</GoogleButton>
-				)} */}
+				)}
 			</Grid>
 			<Grid xs={12} marginBottom={2} item>
 				<Typography

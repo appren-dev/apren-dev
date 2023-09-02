@@ -6,6 +6,7 @@ import { Toast } from "utilities/ToastsHelper";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { lang } from "lang/config";
+import { registrationDB } from "db/api/registration";
 
 export const useLogin = () => {
 	const [credentials, setCredentials] = useState({
@@ -101,7 +102,7 @@ export const useLogin = () => {
 		}
 	};
 
-	const handleGoogleSigning = async () => {
+	const handleGoogleSigning = async (fromPath) => {
 		setLoading({
 			credentialSigning: false,
 			googleSigning: {
@@ -109,6 +110,7 @@ export const useLogin = () => {
 				message: lang.login_google_session_init,
 			},
 		});
+		let data;
 		try {
 			const response = await GoogleProvider();
 			onFalseState();
@@ -117,13 +119,31 @@ export const useLogin = () => {
 				const errorMessage = errorHandler(response);
 				return Toast.error(errorMessage);
 			} else {
-				const data = {
-					name: response.name,
-					email: response.email,
-					image: response.image,
-					status: lang.session_status_success,
-				};
-				sessionStorage.setItem("data", JSON.stringify(data));
+				if (fromPath === "/authentication/registration") {
+					data = {
+						name: response.name,
+						email: response.email,
+						image: response.image,
+						status: "authenticated",
+						emailVerified: true,
+						metadata: {
+							...response.metadata,
+						},
+						password: "",
+						userIP: "",
+						id: response.id,
+					};
+					sessionStorage.setItem("data", JSON.stringify(data));
+					await registrationDB(data);
+				} else {
+					data = {
+						name: response.name,
+						email: response.email,
+						image: response.image,
+						status: lang.session_status_success,
+					};
+					sessionStorage.setItem("data", JSON.stringify(data));
+				}
 				onFalseState();
 				return navigate("/", { state: data });
 			}
