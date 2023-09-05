@@ -97,7 +97,7 @@ const Login = () => {
 					</Link>
 				</Box>
 			</Grid>
-			<Grid xs={12} marginBottom={2} item >
+			<Grid xs={12} marginBottom={2} item>
 				{loading.credentialSigning ? (
 					<CustomLoadingButton loadingMessage="Iniciando Sesión" />
 				) : (
@@ -111,7 +111,7 @@ const Login = () => {
 				{loading.googleSigning.status ? (
 					<CustomLoadingButton loadingMessage={loading.googleSigning.message} />
 				) : (
-					<GoogleButton type="button" onClick={handleGoogleSigning}>
+					<GoogleButton gap={2} type="button" onClick={handleGoogleSigning}>
 						<FcGoogle size={40} />
 						{lang.login_init_session} Google
 					</GoogleButton>

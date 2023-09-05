@@ -11,7 +11,6 @@ import { Link } from "react-router-dom";
 
 const Register = () => {
 	const {
-		/*loading ,*/
 		handleSubmitRegistration,
 		initialValues,
 		getValidationSchema,
@@ -31,9 +30,6 @@ const Register = () => {
 		onSubmit: (data) => handleSubmitRegistration(data),
 	});
 
-	/* 	const handleFieldChange = (event) => {
-		handleChange(event);
-	}; */
 
 	return (
 		<Grid container spacing={1} component="form" onSubmit={handleSubmit}>
@@ -96,11 +92,6 @@ const Register = () => {
 			</Grid>
 
 			<Grid xs={12} marginBottom={2} item>
-				{/* {loading.credentialSigning ? (
-					<CustomLoadingButton loadingMessage="Iniciando Sesión" />
-				) : (
-					<CustomButton type="submit">Iniciar sesión</CustomButton>
-				)} */}
 				<CustomButton type="submit">{lang.registration_btn_title}</CustomButton>
 			</Grid>
 			<Grid xs={12} marginBottom={2} item>
@@ -111,16 +102,17 @@ const Register = () => {
 					<CustomLoadingButton loadingMessage={loading.googleSigning.message} />
 				) : (
 					<GoogleButton
+					gap={2}
 						type="button"
 						onClick={() => handleGoogleSigning("/authentication/registration")}
 					>
-						<FcGoogle size={50} />
+						<FcGoogle size={40} />
 						Iniciar sesión con Google
 					</GoogleButton>
 				)}
 			</Grid>
 			<Grid xs={12} marginBottom={2} item>
-				<Link to="/authentication/login" style={{textDecoration: "none"}}>
+				<Link to="/authentication/login" style={{ textDecoration: "none" }}>
 					<Typography
 						variant="subtitle"
 						sx={{

@@ -25,24 +25,12 @@ export const useRegister = () => {
 			message: "",
 		},
 	});
-	/* 	const [invalidFields, setInvalidFields] = useState({
-		name: null,
-		email: null,
-		password: null,
-		repeatPassword: null,
-	}); */
-
+	
 	const navigate = useNavigate();
 
-	/* const handleChange = (e) => {
-		const entity = e.target.name;
-		const value = e.target.value;
-		setCredentialsRegister((prevState) => ({ ...prevState, [entity]: value }));
-		setInvalidFields((prevState) => ({ ...prevState, [entity]: null }));
-	}; */
 
 	const VALID_PASSWORD_REGEX =
-		/^(?=.*?[A-Z])(?=.*[\u0021-\u002b\u003c-\u0040])(?=.*?[a-z])(?=.*?[0-9]).{8,20}$/;
+	/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])/;
 	const getValidationSchema = () =>
 		Yup.lazy(() =>
 			Yup.object().shape({
@@ -56,7 +44,7 @@ export const useRegister = () => {
 					.required("Campo Obligatorio")
 					.matches(
 						VALID_PASSWORD_REGEX,
-						"La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial",
+						"La contraseña debe tener al menos 1 mayuscula, 1 minuscula y 1 numero",
 					),
 
 				repeatPassword: Yup.string()
@@ -73,7 +61,7 @@ export const useRegister = () => {
 
 			if (response?.user) {
 				const data = {
-					name: response.user.displayName,
+					name: response.user.displayName || values.name,
 					email: response.user.email,
 					image: response.user.photoURL || defaultImage,
 					status: "authenticated",
