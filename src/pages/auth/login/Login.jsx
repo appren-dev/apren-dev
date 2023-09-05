@@ -118,19 +118,21 @@ const Login = () => {
 				)}
 			</Grid>
 			<Grid xs={12} marginBottom={2} item>
-				<Typography
-					variant="subtitle"
-					sx={{
-						color: "primary.main",
-						cursor: "pointer",
-						"&:hover": {
-							color: "primary.secondary",
-							textDecoration: "underline",
-						},
-					}}
-				>
-					{lang.login_not_an_account_yet}
-				</Typography>
+				<Link to="/authentication/registration" style={{ textDecoration: "none" }}>
+					<Typography
+						variant="subtitle"
+						sx={{
+							color: "primary.main",
+							cursor: "pointer",
+							"&:hover": {
+								color: "primary.secondary",
+								textDecoration: "underline",
+							},
+						}}
+					>
+						{lang.login_not_an_account_yet}
+					</Typography>
+				</Link>
 			</Grid>
 		</Grid>
 	);

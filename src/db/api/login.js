@@ -58,7 +58,7 @@ const GoogleProvider = async () => {
 			try {
 				const userMatched = await authorizeUserLogin(user.uid);
 				delete userMatched.password;
-				return userMatched;
+				return { ...userMatched, name: user.displayName };
 			} catch (error) {
 				return {
 					error: 404,
