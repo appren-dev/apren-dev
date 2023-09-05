@@ -44,12 +44,14 @@ const ForgotPassword = () => {
 					return navigate("/authentication/login");
 				}, 2500);
 			} else {
-				await onSendEmailLink(data.email);
+				let res = await onSendEmailLink(data.email);
 
-				setPhrase({
-					text: "Hemos enviado un correo para recuperar tu contraseña",
-					status: "loading",
-				});
+				if(res.response === "success" ){
+					setPhrase({
+						text: "Hemos enviado un correo para recuperar tu contraseña",
+						status: "loading",
+					});
+				}
 			}
 		},
 		validateOnChange: false,
