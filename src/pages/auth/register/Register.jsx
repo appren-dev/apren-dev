@@ -35,7 +35,7 @@ const Register = () => {
 		<Grid container spacing={1} component="form" onSubmit={handleSubmit}>
 			<Grid xs={12} marginBottom={2} item>
 				<Typography variant="h4" color="primary.main" fontWeight={"bolder"}>
-					Sign Up
+					Crear cuenta
 				</Typography>
 			</Grid>
 			<Grid xs={12} marginBottom={2} item>
