@@ -3,6 +3,7 @@ import AuthenticationLayout from "pages/auth/authLayout";
 import { Routes, Route } from "react-router-dom";
 import ProtectedRoutes from "./ProtectedRoutes";
 import MainLayout from "layout/MainLayout";
+import ActionsAuthManager from "./ActionsAuthManager";
 
 export const AppRouter = () => {
 	return (
@@ -22,6 +23,10 @@ export const AppRouter = () => {
 				{authMenu.map(({ id, route, Element }) => (
 					<Route key={id} path={route} element={<Element />} />
 				))}
+
+				<Route element={<ActionsAuthManager />}>
+					<Route path="/authentication/actions" element={<h1>estoy</h1>} />
+				</Route>
 			</Route>
 
 			<Route path="*" element={<div>Error</div>} />
