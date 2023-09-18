@@ -3,7 +3,7 @@ import { Typography } from "@mui/material";
 const Home = () => {
   return (
     <Typography>
-      Home Page
+      Home Page Test Commit
     </Typography>
   );
 };
