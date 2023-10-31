@@ -1,10 +1,18 @@
-import { Typography } from "@mui/material";
+import { Box } from "@mui/material";
+import CourseCard from "components/CourseCard";
+import { popular_courses } from "db/mock_data";
 
 const Home = () => {
   return (
-    <Typography>
-      Home Page Test Commit
-    </Typography>
+    <Box component="div" sx={{ display: "flex", gap: "30px", flexWrap: "wrap", justifyContent: "center" }}>
+      {
+        popular_courses.map((course) => (
+          <CourseCard key={course.id}
+            {...course}
+          />
+        ))
+      }
+    </Box>
   );
 };
 

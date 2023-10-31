@@ -1,7 +1,9 @@
 import { toast } from "react-toastify";
 
 class ToastHelper {
-	constructor() {}
+	constructor() {
+		this.name = "ToastHelper";
+	}
 
 	success(msn) {
 		return toast.success(`¡${msn}!`, {

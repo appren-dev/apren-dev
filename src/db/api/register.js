@@ -2,28 +2,31 @@ import {
 	getAuth,
 	createUserWithEmailAndPassword,
 	signOut,
-	signInWithPopup,
-	GoogleAuthProvider,
+	//signInWithPopup,
+	//GoogleAuthProvider,
 } from "firebase/auth";
-import { app, getById } from "../firebase/firebaseConfig";
+import {
+	app,
+	//	getById
+} from "../firebase/firebaseConfig";
 const auth = getAuth(app);
-const googleProvider = new GoogleAuthProvider();
+//const googleProvider = new GoogleAuthProvider();
 
 const CredentialsProviderRegister = async ({ email, password }) => {
 	return await createUserWithEmailAndPassword(auth, email, password);
 };
 
-const authorizeUserLogin = async (uid) => {
-	try {
-		const userDocument = await getById({
-			name: "registered_users",
-			id: uid,
-		});
-		return userDocument;
-	} catch (error) {
-		return error;
-	}
-};
+// const authorizeUserLogin = async (uid) => {
+// 	try {
+// 		const userDocument = await getById({
+// 			name: "registered_users",
+// 			id: uid,
+// 		});
+// 		return userDocument;
+// 	} catch (error) {
+// 		return error;
+// 	}
+// };
 
 /* const GoogleProviderRegister = async () => {
 	try {

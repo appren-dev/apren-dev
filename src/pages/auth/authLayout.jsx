@@ -1,9 +1,11 @@
 import { AuthContainer, AuthBox } from "styles/components/authcomponents";
 import { Box, Typography } from "@mui/material";
 import logo from "assets/apren-dev_logo_no_bg.png";
-import { Outlet } from "react-router";
+import { Outlet, useNavigate } from "react-router";
 
 const AuthenticationLayout = () => {
+	const navigate = useNavigate();
+
 	return (
 		<>
 			<Box
@@ -14,7 +16,7 @@ const AuthenticationLayout = () => {
 					height: "100vh",
 				}}
 			>
-				<Box sx={{display:"flex", justifyContent:"center", alignItems:"center", width:"70%"}}>
+				<Box onClick={() => navigate("/")} sx={{ display: "flex", justifyContent: "center", alignItems: "center", width: "70%" }}>
 					<img
 						src={logo}
 						alt="apren-dev"

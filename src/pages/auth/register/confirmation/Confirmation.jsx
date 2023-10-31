@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 
 const Confirmation = () => {
-	let navigate = useNavigate();
+	const navigate = useNavigate();
 
 	const [status, setStatus] = useState(lang.confirmation_message_send);
 
@@ -33,7 +33,7 @@ const Confirmation = () => {
 		} else {
 			setStatus(lang.confirmation_message_send);
 		}
-	}, []);
+	}, [navigate]);
 
 	return (
 		<Box sx={{ p: 2, pb: 4 }}>
