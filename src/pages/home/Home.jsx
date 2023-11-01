@@ -3,23 +3,33 @@ import CourseCard from "components/CourseCard";
 import { db } from "db/firebase/firebaseConfig";
 import { popular_courses } from "db/mock_data";
 import { getDoc, collection, doc } from "firebase/firestore";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ReactPlayer from "react-player";
 
 const Home = () => {
+	const videoPlayerRef = useRef(null);
+
 	const [classes, setClasses] = useState([]);
 	const [url, setUrl] = useState({
 		thumbnail: "",
 		videoUrl: "",
 	});
-
-  console.log(url)
+	const [seekValue, setSeekValue] = useState(JSON.parse(localStorage.getItem("time")) || 0);
+	const [isPlaying, setIsPlaying] = useState(false);
 
 	const getMediaUrl = (media) => {
 		return `${process.env.REACT_APP_STORAGE_TRUNK_URL}${media}?alt=media&token=${process.env.REACT_APP_STORAGE_TOKEN}`;
 	};
 
-	console.log(getMediaUrl(url));
+	useEffect(() => {
+		if (isPlaying) {
+			videoPlayerRef.current.seekTo(seekValue);
+		}
+	}, [isPlaying, seekValue]);
+
+	const handlePlay = () => {
+		setIsPlaying(true);
+	};
 
 	useEffect(() => {
 		const getClasses = async () => {
@@ -66,13 +76,20 @@ const Home = () => {
 				})}
 			</ul>
 			<ReactPlayer
+				ref={videoPlayerRef}
 				url={getMediaUrl(url.videoUrl)}
 				controls
 				playing
 				volume={0.2}
 				config={{ file: { attributes: { controlsList: "nodownload" } } }}
-        light={getMediaUrl(url.thumbnail)}
-
+				light={getMediaUrl(url.thumbnail)}
+				onSeek={(value) => {
+					setSeekValue(value);
+				}}
+				onPlay={() => {
+					handlePlay();
+				}}
+				onPause={(event) => localStorage.setItem("time", JSON.stringify(event.target.currentTime))}
 			/>
 			<h2 style={{ color: "white" }}>
 				La clase seleccionada es {url.videoUrl.replace("react%2F", " ")}

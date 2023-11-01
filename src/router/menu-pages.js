@@ -2,6 +2,7 @@ import Login from "pages/auth/login/Login";
 import Register from "pages/auth/register/Register";
 import Confirmation from "pages/auth/register/confirmation/Confirmation";
 import ChangePassword from "pages/changePassword/ChangePassword";
+import CourseDetail from "pages/courseDetail/CourseDetail";
 import ForgotPassword from "pages/forgotPassword/ForgotPassword";
 import Home from "pages/home/Home";
 
@@ -42,6 +43,11 @@ const unSingedMenu = [
 		id: 1,
 		route: "/",
 		Element: Home,
+	},
+	{
+		id: 1,
+		route: "/courses/:courseName",
+		Element: CourseDetail,
 	},
 ];
 
