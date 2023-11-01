@@ -1,15 +1,15 @@
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
+import { BsCart, BsCartCheckFill } from 'react-icons/bs';
 import { useBreakpoints } from 'hook/useBreakpoints';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import { Box, IconButton } from '@mui/material';
+import { Box, IconButton, Tooltip } from '@mui/material';
 import { orange } from '@mui/material/colors';
 import Button from '@mui/material/Button';
 import ReactPlayer from 'react-player';
 import Card from '@mui/material/Card';
-import { useState } from "react";
-import * as React from 'react';
+import { useState, useEffect } from "react";
 
 const widthBreakpoints = { xs: 435, sm: 600, md: 600, lg: 435 };
 
@@ -40,27 +40,40 @@ const CourseCard = ({ course_name, course_description, course_level, course_thum
     localStorage.setItem("favorite_courses", JSON.stringify([crs]));
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (localStorage.getItem("favorite_courses")) {
       const prevSelection = JSON.parse(localStorage.getItem("favorite_courses"));
       if (prevSelection.find((el) => el === course_name)) {
         setLiked(true);
-
       }
     };
   }, [course_name]);
 
   return (
-    <Card sx={{ width: widthBreakpoints }}>
+    <Card sx={{ width: widthBreakpoints, position: "relative" }}>
+      <Box sx={{ position: "absolute", top: 0, right: 0, background: "#25293C", borderRadius: "100%" }}>
+        <Tooltip title="WISH LIST">
+          <IconButton >
+            <BsCart size={18} />
+          </IconButton>
+        </Tooltip>
+      </Box>
       <ReactPlayer
         muted
         playing
         controls
         height={hght}
         width={"100%"}
-        onPlay={() => setHeight(lg ? "auto" : "245px")}
         url={getMediaUrl(course_intro_url)}
         light={getMediaUrl(course_thumbnail)}
+        config={{
+          file: {
+            attributes: {
+              controlsList: "nodownload"
+            }
+          }
+        }}
+        onPlay={() => setHeight(lg ? "auto" : "245px")}
       />
       <CardContent>
         <Box

@@ -1,10 +1,10 @@
-import { Box } from "@mui/material";
 import CourseCard from "components/CourseCard";
 import { popular_courses } from "db/mock_data";
+import { StyledBox } from "./styled";
 
 const Home = () => {
   return (
-    <Box component="div" sx={{ display: "flex", gap: "30px", flexWrap: "wrap", justifyContent: "center" }}>
+    <StyledBox component="div">
       {
         popular_courses.map((course) => (
           <CourseCard key={course.id}
@@ -12,7 +12,7 @@ const Home = () => {
           />
         ))
       }
-    </Box>
+    </StyledBox>
   );
 };
 

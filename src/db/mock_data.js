@@ -28,6 +28,15 @@ export const popular_courses = [
 		course_intro_url: "love_train.mp4?alt=media&token=",
 		course_level: "advanced",
 	},
+	{
+		id: v4(),
+		course_name: "Me Vieron Cruzar",
+		course_description:
+			"Aprenderás a crear sitios web desde cero. Descubriremos los fundamentos de HTML para estructurar el contenido y CSS para darle estilo. Además, exploraremos el diseño web responsivo y trabajaremos en un proyecto práctico.",
+		course_thumbnail: "me_vieron_cruzar_thumbnail.jpeg?alt=media&token=",
+		course_intro_url: "me_vieron_cruzar.mp4?alt=media&token=",
+		course_level: "advanced",
+	},
 ];
 
 // const course_model = {
