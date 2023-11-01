@@ -12,5 +12,6 @@
   "customer_service": "Servicio al Cliente",
   "logout": "Log out",
   "user_settings": "Configuración de Usuarios",
-  "change_password": "Cambiar contraseña"
+  "change_password": "Cambiar contraseña",
+  "my_list": "Mi Lista"
 }

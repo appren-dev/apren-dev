@@ -1,6 +1,5 @@
 import { lang } from "lang/config";
 export const getNavItems = (session) => {
-
 	const noAuthMenu = [
 		{
 			id: 1,
@@ -27,6 +26,11 @@ export const getNavItems = (session) => {
 			label: lang.community,
 			path: "/community",
 		},
+		{
+			id: 6,
+			label: lang.my_list,
+			path: "/my-list",
+		},
 	];
 
 	const authMenu = [
@@ -49,6 +53,11 @@ export const getNavItems = (session) => {
 			id: 4,
 			label: lang.community,
 			path: "/community",
+		},
+		{
+			id: 5,
+			label: lang.my_list,
+			path: "/my-list",
 		},
 	];
 

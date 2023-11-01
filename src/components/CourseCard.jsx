@@ -50,14 +50,7 @@ const CourseCard = ({ course_name, course_description, course_level, course_thum
   }, [course_name]);
 
   return (
-    <Card sx={{ width: widthBreakpoints, position: "relative" }}>
-      <Box sx={{ position: "absolute", top: 0, right: 0, background: "#25293C", borderRadius: "100%" }}>
-        <Tooltip title="WISH LIST">
-          <IconButton >
-            <BsCart size={18} />
-          </IconButton>
-        </Tooltip>
-      </Box>
+    <Card sx={{ width: widthBreakpoints }}>
       <ReactPlayer
         muted
         playing
@@ -116,15 +109,17 @@ const CourseCard = ({ course_name, course_description, course_level, course_thum
         </Button>
 
         <Box>
-          <IconButton onClick={() => handleSelectFavorites(course_name)}>
-            {
-              liked ? (
-                <AiFillHeart />
-              ) : (
-                <AiOutlineHeart />
-              )
-            }
-          </IconButton>
+          <Tooltip title={liked ? "Remover de Mi Lista" : "Agregar a Mi Lista"}>
+            <IconButton onClick={() => handleSelectFavorites(course_name)}>
+              {
+                liked ? (
+                  <AiFillHeart />
+                ) : (
+                  <AiOutlineHeart />
+                )
+              }
+            </IconButton>
+          </Tooltip>
         </Box>
       </CardActions>
     </Card >
