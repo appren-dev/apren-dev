@@ -251,12 +251,12 @@ const CourseDetail = () => {
 					</Accordion>
 				</Box>
 			</Box>
-			{/* <Box
-				sx={{
-					marginTop: { md: "250px" },
-				}}
+			<Box
+			// sx={{
+			// 	marginTop: { md: "250px" },
+			// }}
 			>
-				<h3>
+				<h3 style={{ color: "white" }}>
 					ESTA Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor illum est facere fuga
 					impedit totam? Animi repudiandae obcaecati quasi aspernatur minima. Harum illum molestiae
 					quod et, pariatur rerum praesentium iusto? Quaerat, repudiandae facere velit quibusdam,
@@ -435,7 +435,7 @@ const CourseDetail = () => {
 					magnam est harum facere eos temporibus amet, a, ipsa nihil. Facilis fugiat, ipsam dicta
 					hic beatae libero error. Voluptatibus.
 				</h3>
-			</Box> */}
+			</Box>
 		</>
 	);
 };

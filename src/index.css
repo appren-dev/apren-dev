@@ -15,3 +15,7 @@ h6,
 div {
 	color: rgba(51, 48, 60, 0.87);
 }
+
+body::-webkit-scrollbar {
+	display: none;
+}
