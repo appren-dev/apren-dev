@@ -1,14 +1,12 @@
-import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
-//import { BsCart, BsCartCheckFill } from 'react-icons/bs';
-import { useBreakpoints } from 'hook/useBreakpoints';
+import { AiOutlineHeart, AiFillHeart, AiOutlinePlayCircle } from 'react-icons/ai';
+import { Box, CardMedia, IconButton, Tooltip } from '@mui/material';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import { Box, IconButton, Tooltip } from '@mui/material';
 import { orange } from '@mui/material/colors';
 import { useState, useEffect } from "react";
+import ModalPlayer from 'pages/home/Modal';
 import Button from '@mui/material/Button';
-import ReactPlayer from 'react-player';
 import Card from '@mui/material/Card';
 
 const getMediaUrl = (media) => {
@@ -16,7 +14,6 @@ const getMediaUrl = (media) => {
 };
 
 const CourseCard = ({ course_name, course_description, course_level, course_thumbnail, course_intro_url }) => {
-  const [height, setHeight] = useState("252px");
   const [liked, setLiked] = useState(false);
 
   const handleSelectFavorites = (crs) => {
@@ -44,25 +41,35 @@ const CourseCard = ({ course_name, course_description, course_level, course_thum
     };
   }, [course_name]);
 
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+
+
   return (
     <Card sx={{ width: "100%" }}>
-      <ReactPlayer
-        muted
-        playing
-        controls
-        height={height}
-        width={"100%"}
-        url={getMediaUrl(course_intro_url)}
-        light={getMediaUrl(course_thumbnail)}
-        config={{
-          file: {
-            attributes: {
-              controlsList: "nodownload"
-            }
-          }
-        }}
-        onPlay={() => setHeight("auto")}
-      />
+      {
+        open && (
+          <ModalPlayer
+            open={open}
+            handleClose={handleClose}
+            url={getMediaUrl(course_intro_url)}
+            thumbnail={getMediaUrl(course_thumbnail)}
+          />
+        )
+      }
+      <Box sx={{ position: "relative" }}>
+        <CardMedia
+          component={"img"}
+          src={getMediaUrl(course_thumbnail)}
+        />
+        <Box sx={{ position: "absolute", left: "50%", top: "50%", transform: "translate(-50%, -50%)" }}>
+          <IconButton onClick={handleOpen}>
+            <AiOutlinePlayCircle size={100} color="#eee" />
+          </IconButton>
+        </Box>
+      </Box>
       <CardContent>
         <Box
           sx={{
