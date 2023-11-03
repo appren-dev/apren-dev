@@ -45,24 +45,26 @@ const CourseCard = ({ course_name, course_description, course_level, course_thum
   }, [course_name]);
 
   return (
-    <Card sx={{ width: "100%" }}>
-      <ReactPlayer
-        muted
-        playing
-        controls
-        height={height}
-        width={"100%"}
-        url={getMediaUrl(course_intro_url)}
-        light={getMediaUrl(course_thumbnail)}
-        config={{
-          file: {
-            attributes: {
-              controlsList: "nodownload"
+    <Card sx={{ width: { xs: "100%", lg: "450px" } }}>
+      <Box sx={{ width: "100%", height: "255px" }}>
+        <ReactPlayer
+          muted
+          playing
+          controls
+          height={height}
+          width={"100%"}
+          url={getMediaUrl(course_intro_url)}
+          light={getMediaUrl(course_thumbnail)}
+          config={{
+            file: {
+              attributes: {
+                controlsList: "nodownload"
+              }
             }
-          }
-        }}
-        onPlay={() => setHeight("auto")}
-      />
+          }}
+          onPlay={() => setHeight("auto")}
+        />
+      </Box>
       <CardContent>
         <Box
           sx={{
