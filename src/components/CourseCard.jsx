@@ -1,28 +1,23 @@
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
-import { BsCart, BsCartCheckFill } from 'react-icons/bs';
+//import { BsCart, BsCartCheckFill } from 'react-icons/bs';
 import { useBreakpoints } from 'hook/useBreakpoints';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import { Box, IconButton, Tooltip } from '@mui/material';
 import { orange } from '@mui/material/colors';
+import { useState, useEffect } from "react";
 import Button from '@mui/material/Button';
 import ReactPlayer from 'react-player';
 import Card from '@mui/material/Card';
-import { useState, useEffect } from "react";
-
-const widthBreakpoints = { xs: 435, sm: 600, md: 600, lg: 435 };
 
 const getMediaUrl = (media) => {
   return `${process.env.REACT_APP_STORAGE_TRUNK_URL}${media}${process.env.REACT_APP_STORAGE_TOKEN}`;
 };
 
 const CourseCard = ({ course_name, course_description, course_level, course_thumbnail, course_intro_url }) => {
-  const [height, setHeight] = useState("245px");
+  const [height, setHeight] = useState("252px");
   const [liked, setLiked] = useState(false);
-  const { lg } = useBreakpoints("lg");
-  const { sm } = useBreakpoints("sm");
-  const hght = lg && !sm ? "337px" : sm && lg ? "245px" : height;
 
   const handleSelectFavorites = (crs) => {
     if (localStorage.getItem("favorite_courses")) {
@@ -50,12 +45,12 @@ const CourseCard = ({ course_name, course_description, course_level, course_thum
   }, [course_name]);
 
   return (
-    <Card sx={{ width: widthBreakpoints }}>
+    <Card sx={{ width: "100%" }}>
       <ReactPlayer
         muted
         playing
         controls
-        height={hght}
+        height={height}
         width={"100%"}
         url={getMediaUrl(course_intro_url)}
         light={getMediaUrl(course_thumbnail)}
@@ -66,7 +61,7 @@ const CourseCard = ({ course_name, course_description, course_level, course_thum
             }
           }
         }}
-        onPlay={() => setHeight(lg ? "auto" : "245px")}
+        onPlay={() => setHeight("auto")}
       />
       <CardContent>
         <Box
