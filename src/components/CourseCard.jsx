@@ -45,7 +45,7 @@ const CourseCard = ({ course_name, course_description, course_level, course_thum
   }, [course_name]);
 
   return (
-    <Card sx={{ width: { xs: "100%", lg: "450px" } }}>
+    <Card sx={{ width: { xs: "100%", lg: "450px" }, border: { xs: "1px solid yellow", sm: "1px solid blue", md: "1px solid red", lg: "1px solid yellow" } }}>
       <Box sx={{ width: "100%", height: "255px" }}>
         <ReactPlayer
           muted
@@ -62,7 +62,7 @@ const CourseCard = ({ course_name, course_description, course_level, course_thum
               }
             }
           }}
-          onPlay={() => setHeight("auto")}
+        //onPlay={() => setHeight("auto")}
         />
       </Box>
       <CardContent>
