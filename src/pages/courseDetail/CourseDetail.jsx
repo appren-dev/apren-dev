@@ -1,6 +1,13 @@
-import { Accordion, AccordionDetails, AccordionSummary, Box, Typography } from "@mui/material";
+import {
+	Accordion,
+	AccordionDetails,
+	AccordionSummary,
+	Box,
+	Checkbox,
+	Typography,
+} from "@mui/material";
 import { db } from "db/firebase/firebaseConfig";
-import { getDoc, collection, doc } from "firebase/firestore";
+import { getDoc, collection, doc, updateDoc } from "firebase/firestore";
 import { useEffect, useRef, useState } from "react";
 import ReactPlayer from "react-player";
 import { useParams } from "react-router";
@@ -10,19 +17,89 @@ const CourseDetail = () => {
 	const { courseName } = useParams();
 
 	const videoPlayerRef = useRef(null);
-	const [classes, setClasses] = useState([]);
+	const [classes, setClasses] = useState([
+		{
+			id: 1,
+			title: "Seccion 1",
+			lessons: [
+				{
+					id: 1,
+					title: "Clase 1",
+					path: "javascript.mp4",
+					thumbnail: "introduction_thumbnail.jpeg",
+				},
+				{
+					id: 2,
+					title: "Clase 2",
+					path: "javascript.mp4",
+					thumbnail: "introduction_thumbnail.jpeg",
+				},
+			],
+		},
+		{
+			id: 2,
+			title: "Seccion 2",
+			lessons: [
+				{
+					id: 1,
+					title: "Clase 3",
+					path: "javascript.mp4",
+					thumbnail: "introduction_thumbnail.jpeg",
+				},
+				{
+					id: 2,
+					title: "Clase 4",
+					path: "javascript.mp4",
+					thumbnail: "introduction_thumbnail.jpeg",
+				},
+				{
+					id: 3,
+					title: "Clase 5",
+					path: "javascript.mp4",
+					thumbnail: "introduction_thumbnail.jpeg",
+				},
+				{
+					id: 4,
+					title: "Clase 6",
+					path: "javascript.mp4",
+					thumbnail: "introduction_thumbnail.jpeg",
+					is_completed: false,
+				},
+				{
+					id: 5,
+					title: "Clase 7",
+					path: "javascript.mp4",
+					thumbnail: "introduction_thumbnail.jpeg",
+					is_completed: false,
+				},
+				{
+					id: 6,
+					title: "Clase 8",
+					path: "javascript.mp4",
+					thumbnail: "introduction_thumbnail.jpeg",
+				},
+			],
+		},
+	]);
+	// const [classes, setClasses] = useState([]);
 	const [url, setUrl] = useState({
 		thumbnail: "",
 		videoUrl: "",
+		title: "",
 	});
+	console.log(url);
 	const [seekValue, setSeekValue] = useState(JSON.parse(localStorage.getItem("time")) || 0);
 	const [isPlaying, setIsPlaying] = useState(false);
 	const [flag, setFlag] = useState(true);
 
+	// SOLO PARA EL PROGRESO
+
+	const [completedClasses, setCompletedClasses] = useState([]);
+
 	const getMediaUrl = (media) => {
 		return `${process.env.REACT_APP_STORAGE_TRUNK_URL}${media}?alt=media&token=${process.env.REACT_APP_STORAGE_TOKEN}`;
 	};
-	console.log(seekValue);
+	console.log(completedClasses);
 
 	useEffect(() => {
 		if (isPlaying && flag) {
@@ -35,25 +112,63 @@ const CourseDetail = () => {
 		setIsPlaying(true);
 	};
 
+	useEffect(() => {
+		const getClasses = async () => {
+			const coursesCollection = collection(db, "courses");
+			const docRef = doc(coursesCollection, courseName);
+			// const res = await getDoc(docRef);
+
+			const coursesCollection2 = collection(
+				db,
+				`registered_users/4W9Goxosi7Mo3VlPWUVEmJmS3by2/cursos`,
+			);
+			const docRef2 = doc(coursesCollection2, courseName);
+			// const res2 = await getDoc(docRef2);
+
+			Promise.all([getDoc(docRef), getDoc(docRef2)]).then((classes, lessons) => {
+				// const mergeData = [...classes.data()]
+				console.log({ classes });
+				console.log({ lessons });
+			});
+
+			// setClasses(res.data().classes);
+			// setUrl({
+			// 	...url,
+			// 	videoUrl: `${courseName}%2F${res.data().classes[0].lessons[0].path}`,
+			// 	thumbnail: `${courseName}%2F${res.data().classes[0].lessons[0].thumbnail}`,
+			// });
+		};
+
+		getClasses();
+	}, [courseName]);
+
 	// useEffect(() => {
-	// 	const getClasses = async () => {
-	// 		const coursesCollection = collection(db, "courses");
+	// 	const getProgess = async () => {
+	// 		const coursesCollection = collection(
+	// 			db,
+	// 			`registered_users/4W9Goxosi7Mo3VlPWUVEmJmS3by2/cursos`,
+	// 		);
 	// 		const docRef = doc(coursesCollection, courseName);
 	// 		const res = await getDoc(docRef);
-	// 		setClasses(res.data().classes);
-	// 		setUrl({
-	// 			videoUrl: `${courseName}%2F${res.data().classes[0].path}`,
-	// 			thumbnail: `${courseName}%2F${res.data().classes[0].thumbnail}`,
-	// 		});
+	// 		// const arrayStrings = res.data().lessons.map((e) => {
+	// 		// 	return e.title;
+	// 		// });
+	// 		setCompletedClasses( res.data().lessons);
+
 	// 	};
 
-	// 	getClasses();
+	// 	getProgess();
 	// }, [courseName]);
+
+	const handleCompleteClass = () => {
+		setCompletedClasses([...completedClasses, url.title]);
+	};
+
 	return (
 		<>
 			<div style={{ marginBottom: "5px" }}>
-				<h2 style={{ color: "white" }}>
-					Selectores {url.videoUrl.replace(`${courseName}%2F`, " ")}
+				<h2 style={{ color: "white", textTransform: "capitalize" }}>
+					{url.videoUrl.replace(`${courseName}%2F`, " ").replace(".mp4", " ")}
 				</h2>
 			</div>
 			<Box
@@ -92,28 +207,10 @@ const CourseDetail = () => {
 						onPause={(event) =>
 							localStorage.setItem("time", JSON.stringify(event.target.currentTime))
 						}
+						onEnded={handleCompleteClass}
 					/>
 				</Box>
 
-				{/* <ul style={{ backgroundColor: "blue", width: "20%" }}>
-					<li style={{ color: "white", listStyle: "none" }}>CLASE 1</li>
-					{classes.map((clase) => {
-						return (
-							<li
-								onClick={() =>
-									setUrl({
-										videoUrl: `${courseName}%2F${clase.path}`,
-										thumbnail: `${courseName}%2F${clase.thumbnail}`,
-									})
-								}
-								style={{ color: "white", listStyle: "none" }}
-								key={clase.id}
-							>
-								{clase.title}
-							</li>
-						);
-					})}
-				</ul> */}
 				<Box
 					sx={{
 						flex: { xs: "1", lg: "0.3" },
@@ -126,135 +223,51 @@ const CourseDetail = () => {
 						width: { lg: "28%" },
 					}}
 				>
-					<Accordion sx={{ margin: "0 !important", width: "100%" }}>
-						<AccordionSummary
-							expandIcon={<ExpandMoreIcon />}
-							aria-controls="panel1a-content"
-							id="panel1a-header"
-						>
-							<Typography>Sección 1</Typography>
-						</AccordionSummary>
-						<AccordionDetails>
-							<Typography>
-								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus
-								ex, sit amet blandit leo lobortis eget.
-							</Typography>
-						</AccordionDetails>
-					</Accordion>
-					<Accordion sx={{ margin: "0 !important", width: "100%" }}>
-						<AccordionSummary
-							expandIcon={<ExpandMoreIcon />}
-							aria-controls="panel1a-content"
-							id="panel1a-header"
-						>
-							<Typography>Sección 2</Typography>
-						</AccordionSummary>
-						<AccordionDetails>
-							<Typography>
-								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus
-								ex, sit amet blandit leo lobortis eget.
-							</Typography>
-						</AccordionDetails>
-					</Accordion>
-					<Accordion sx={{ margin: "0 !important", width: "100%" }}>
-						<AccordionSummary
-							expandIcon={<ExpandMoreIcon />}
-							aria-controls="panel1a-content"
-							id="panel1a-header"
-						>
-							<Typography>Sección 3</Typography>
-						</AccordionSummary>
-						<AccordionDetails>
-							<Typography>
-								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus
-								ex, sit amet blandit leo lobortis eget.
-							</Typography>
-						</AccordionDetails>
-					</Accordion>
-
-					<Accordion sx={{ margin: "0 !important", width: "100%" }}>
-						<AccordionSummary
-							expandIcon={<ExpandMoreIcon />}
-							aria-controls="panel1a-content"
-							id="panel1a-header"
-						>
-							<Typography>Sección 4</Typography>
-						</AccordionSummary>
-						<AccordionDetails>
-							<Typography>
-								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus
-								ex, sit amet blandit leo lobortis eget.
-							</Typography>
-						</AccordionDetails>
-					</Accordion>
-
-					<Accordion sx={{ margin: "0 !important", width: "100%" }}>
-						<AccordionSummary
-							expandIcon={<ExpandMoreIcon />}
-							aria-controls="panel1a-content"
-							id="panel1a-header"
-						>
-							<Typography>Sección 5</Typography>
-						</AccordionSummary>
-						<AccordionDetails>
-							<Typography>
-								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus
-								ex, sit amet blandit leo lobortis eget.
-							</Typography>
-						</AccordionDetails>
-					</Accordion>
-
-					<Accordion sx={{ margin: "0 !important", width: "100%" }}>
-						<AccordionSummary
-							expandIcon={<ExpandMoreIcon />}
-							aria-controls="panel1a-content"
-							id="panel1a-header"
-						>
-							<Typography>Sección 6</Typography>
-						</AccordionSummary>
-						<AccordionDetails>
-							<Typography>
-								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus
-								ex, sit amet blandit leo lobortis eget.
-							</Typography>
-						</AccordionDetails>
-					</Accordion>
-					<Accordion sx={{ margin: "0 !important", width: "100%" }}>
-						<AccordionSummary
-							expandIcon={<ExpandMoreIcon />}
-							aria-controls="panel1a-content"
-							id="panel1a-header"
-						>
-							<Typography>Sección 7</Typography>
-						</AccordionSummary>
-						<AccordionDetails>
-							<Typography>
-								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus
-								ex, sit amet blandit leo lobortis eget.
-							</Typography>
-						</AccordionDetails>
-					</Accordion>
-					<Accordion sx={{ margin: "0 !important", width: "100%" }}>
-						<AccordionSummary
-							expandIcon={<ExpandMoreIcon />}
-							aria-controls="panel1a-content"
-							id="panel1a-header"
-						>
-							<Typography>Sección 8</Typography>
-						</AccordionSummary>
-						<AccordionDetails>
-							<Typography>
-								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus
-								ex, sit amet blandit leo lobortis eget.
-							</Typography>
-						</AccordionDetails>
-					</Accordion>
+					{classes?.map((seccion) => {
+						return (
+							<Accordion key={seccion.id} sx={{ margin: "0 !important", width: "100%" }}>
+								<AccordionSummary
+									expandIcon={<ExpandMoreIcon />}
+									aria-controls="panel1a-content"
+									id="panel1a-header"
+								>
+									<Typography>{seccion.title}</Typography>
+								</AccordionSummary>
+								<AccordionDetails sx={{ padding: 0 }}>
+									{seccion?.lessons?.map((clase) => {
+										return (
+											<Box
+												sx={{
+													color: "white",
+													paddingLeft: "35px",
+													paddingRight: "35px",
+													marginBottom: "5px",
+												}}
+												key={clase.id}
+												onClick={() =>
+													setUrl({
+														videoUrl: `${courseName}%2F${clase.path}`,
+														thumbnail: `${courseName}%2F${clase.thumbnail}`,
+														title: clase.title,
+													})
+												}
+											>
+												<Checkbox checked={completedClasses.includes(clase.title)} />
+												{clase.title}
+											</Box>
+										);
+									})}
+								</AccordionDetails>
+							</Accordion>
+						);
+					})}
 				</Box>
 			</Box>
 			<Box
-			// sx={{
-			// 	marginTop: { md: "250px" },
-			// }}
+				sx={{
+					marginTop: { xs: "25px", md: "50px" },
+					width: { xs: "100%", lg: "70%" },
+				}}
 			>
 				<h3 style={{ color: "white" }}>
 					ESTA Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor illum est facere fuga
