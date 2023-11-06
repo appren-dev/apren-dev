@@ -1,17 +1,10 @@
+import { CardActions, CardContent, Typography, Button, Card } from '@mui/material';
 import { AiOutlineHeart, AiFillHeart, AiOutlinePlayCircle } from 'react-icons/ai';
 import { Box, CardMedia, IconButton, Tooltip } from '@mui/material';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import Typography from '@mui/material/Typography';
+import { getMediaUrl } from 'utilities/getMediaUrl';
 import { orange } from '@mui/material/colors';
 import { useState, useEffect } from "react";
-import ModalPlayer from 'pages/home/Modal';
-import Button from '@mui/material/Button';
-import Card from '@mui/material/Card';
-
-const getMediaUrl = (media) => {
-  return `${process.env.REACT_APP_STORAGE_TRUNK_URL}${media}${process.env.REACT_APP_STORAGE_TOKEN}`;
-};
+import ModalPlayer from './Modal';
 
 const CourseCard = ({ course_name, course_description, course_level, course_thumbnail, course_intro_url }) => {
   const [liked, setLiked] = useState(false);

@@ -1,4 +1,4 @@
-import CourseCard from "components/CourseCard";
+import CourseCard from "components/course-card/CourseCard";
 import { popular_courses } from "db/mock_data";
 import { StyledBox } from "./styled";
 

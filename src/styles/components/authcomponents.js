@@ -31,7 +31,7 @@ const CustomButton = styled(Button)`
 	text-transform: unset;
 	width: 100%;
 	height: 45px;
-	background-color: #20bac2;
+	background-color: #147479;
 	border: none;
 	padding: 5px 10px;
 	color: #fff;
@@ -42,7 +42,7 @@ const CustomButton = styled(Button)`
 	transition: background-color 0.5s ease;
 	&:hover {
 		font-weight: bolder;
-		background-color: #147479;
+		background-color: #20bac2;
 	}
 `;
 

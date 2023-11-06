@@ -1,7 +1,7 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
 import ReactPlayer from 'react-player';
-import Modal from '@mui/material/Modal';
+import { AiFillCloseCircle } from 'react-icons/ai';
+import { Box, Modal, IconButton } from '@mui/material';
 
 const style = {
   position: 'absolute',
@@ -39,8 +39,7 @@ const ModalPlayer = ({ open, handleClose, url, thumbnail }) => {
             width={"100%"}
             height={memoedHeightValue}
             //height={"100%"}
-            //url={url}
-            url={"https://firebasestorage.googleapis.com/v0/b/practice-f9b79.appspot.com/o/html%2Fselectores.mp4?alt=media&token=6775ffbc-ed10-41f1-8732-2a9e8567bb3d&_gl=1*yj9kr4*_ga*OTIzNzE5MzA4LjE2ODM0MDIxODg.*_ga_CW55HF8NVT*MTY5OTAyMjAxMi40MS4xLjE2OTkwMjIwNDAuMzIuMC4w"}
+            url={url}
             light={thumbnail}
             config={{
               file: {
@@ -51,6 +50,11 @@ const ModalPlayer = ({ open, handleClose, url, thumbnail }) => {
             }}
             onPlay={() => memoedHeight("auto")}
           />
+          <Box sx={{ position: "absolute", top: 0, right: 0 }}>
+            <IconButton onClick={handleClose}>
+              <AiFillCloseCircle size={30} color={"#fff"} />
+            </IconButton>
+          </Box>
         </Box>
       </Modal>
     </div>
