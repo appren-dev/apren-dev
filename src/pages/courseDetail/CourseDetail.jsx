@@ -63,14 +63,12 @@ const CourseDetail = () => {
 					title: "Clase 6",
 					path: "javascript.mp4",
 					thumbnail: "introduction_thumbnail.jpeg",
-					is_completed: false,
 				},
 				{
 					id: 5,
 					title: "Clase 7",
 					path: "javascript.mp4",
 					thumbnail: "introduction_thumbnail.jpeg",
-					is_completed: false,
 				},
 				{
 					id: 6,
@@ -81,25 +79,20 @@ const CourseDetail = () => {
 			],
 		},
 	]);
+	const [heightVideo, setHeightVideo] = useState("400px");
 	// const [classes, setClasses] = useState([]);
 	const [url, setUrl] = useState({
 		thumbnail: "",
 		videoUrl: "",
-		title: "",
 	});
 	console.log(url);
 	const [seekValue, setSeekValue] = useState(JSON.parse(localStorage.getItem("time")) || 0);
 	const [isPlaying, setIsPlaying] = useState(false);
 	const [flag, setFlag] = useState(true);
 
-	// SOLO PARA EL PROGRESO
-
-	const [completedClasses, setCompletedClasses] = useState([]);
-
 	const getMediaUrl = (media) => {
 		return `${process.env.REACT_APP_STORAGE_TRUNK_URL}${media}?alt=media&token=${process.env.REACT_APP_STORAGE_TOKEN}`;
 	};
-	console.log(completedClasses);
 
 	useEffect(() => {
 		if (isPlaying && flag) {
@@ -110,59 +103,24 @@ const CourseDetail = () => {
 
 	const handlePlay = () => {
 		setIsPlaying(true);
+		setHeightVideo("100%");
 	};
 
 	useEffect(() => {
 		const getClasses = async () => {
 			const coursesCollection = collection(db, "courses");
 			const docRef = doc(coursesCollection, courseName);
-			// const res = await getDoc(docRef);
+			const res = await getDoc(docRef);
 
-			const coursesCollection2 = collection(
-				db,
-				`registered_users/4W9Goxosi7Mo3VlPWUVEmJmS3by2/cursos`,
-			);
-			const docRef2 = doc(coursesCollection2, courseName);
-			// const res2 = await getDoc(docRef2);
-
-			Promise.all([getDoc(docRef), getDoc(docRef2)]).then((classes, lessons) => {
-				// const mergeData = [...classes.data()]
-				console.log({ classes });
-				console.log({ lessons });
+			setClasses(res.data().classes);
+			setUrl({
+				videoUrl: `${courseName}%2F${res.data().classes[0].lessons[0].path}`,
+				thumbnail: `${courseName}%2F${res.data().classes[0].lessons[0].thumbnail}`,
 			});
-
-			// setClasses(res.data().classes);
-			// setUrl({
-			// 	...url,
-			// 	videoUrl: `${courseName}%2F${res.data().classes[0].lessons[0].path}`,
-			// 	thumbnail: `${courseName}%2F${res.data().classes[0].lessons[0].thumbnail}`,
-			// });
 		};
 
 		getClasses();
 	}, [courseName]);
-
-	// useEffect(() => {
-	// 	const getProgess = async () => {
-	// 		const coursesCollection = collection(
-	// 			db,
-	// 			`registered_users/4W9Goxosi7Mo3VlPWUVEmJmS3by2/cursos`,
-	// 		);
-	// 		const docRef = doc(coursesCollection, courseName);
-	// 		const res = await getDoc(docRef);
-	// 		// const arrayStrings = res.data().lessons.map((e) => {
-	// 		// 	return e.title;
-	// 		// });
-	// 		setCompletedClasses( res.data().lessons);
-
-	// 	};
-
-	// 	getProgess();
-	// }, [courseName]);
-
-	const handleCompleteClass = () => {
-		setCompletedClasses([...completedClasses, url.title]);
-	};
 
 	return (
 		<>
@@ -187,7 +145,7 @@ const CourseDetail = () => {
 				>
 					<ReactPlayer
 						width={"100%"}
-						height={"100%"}
+						height={heightVideo}
 						ref={videoPlayerRef}
 						// url={getMediaUrl(url.videoUrl)}
 						url={
@@ -207,7 +165,6 @@ const CourseDetail = () => {
 						onPause={(event) =>
 							localStorage.setItem("time", JSON.stringify(event.target.currentTime))
 						}
-						onEnded={handleCompleteClass}
 					/>
 				</Box>
 
@@ -248,11 +205,9 @@ const CourseDetail = () => {
 													setUrl({
 														videoUrl: `${courseName}%2F${clase.path}`,
 														thumbnail: `${courseName}%2F${clase.thumbnail}`,
-														title: clase.title,
 													})
 												}
 											>
-												<Checkbox checked={completedClasses.includes(clase.title)} />
 												{clase.title}
 											</Box>
 										);
